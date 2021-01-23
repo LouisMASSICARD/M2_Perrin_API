@@ -33,10 +33,10 @@ On va faire persister nos données sur une base postgres :
 
 S'assurer qu'e l'on a bien :  
 
-`
+```
 server.port=8888  
 spring.cloud.config.server.git.uri=file:///home/louis/Documents/M2/S9/Perrin_API/M2_Perrin_API/config
-`
+```
 
 Il faut faire matcher le path précisé dans `spring.cloud.config.server.git.uri` avec la localisation du **repo config**.  
 
