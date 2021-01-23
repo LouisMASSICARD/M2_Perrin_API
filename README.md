@@ -54,3 +54,15 @@ git init
 git add intervenants-service.properties
 git commit -am "Version initial"
 ```
+
+## Run services
+
+### config-service repo : port 8888
+
+```
+cd config-service
+mvn clean package -DskipTests
+java -jar target/config-service-1.0.jar
+```
+
+### 
