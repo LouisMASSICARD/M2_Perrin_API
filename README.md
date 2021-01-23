@@ -10,16 +10,33 @@ On utilise consul comme regitre de services.
 Les services vont s'enregistrer auprès de consul.  
 Si un service a besoin d'un autre service, alors il demande à consul où trouver ce service.
 
+Si vous avez déjà réalisé cette étape auparavant,  
+alors vous avez uniquement à lancer la commande suivante :  
+
+`docker start consul`  
+
+sinon la commande suivante :  
+
 `docker run --name consul -p 8500:8500 consul`
 
 ### postgre
+
+On va faire persister nos données sur une base postgres.  
+
+ * USER=postgres
+ * PASSWORD=riovas
 
 On s'assure qu'il n'y a pas déjà un postgres qui tourne sur la machine :  
 (si on est certain qu'il n'y a pas de postgres qui tourne sur la machine on peut sauter cette étape)
 
 `sudo pkill -u postgres`
 
-On va faire persister nos données sur une base postgres :  
+Si vous avez déjà réalisé cette étape auparavant,  
+alors vous avez uniquement à lancer la commande suivante :  
+
+`docker start postgres`  
+
+sinon la commande suivante :  
 
 `docker run --name postgres -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=riovas -p 5432:5432 -d postgres`
 
