@@ -134,10 +134,10 @@ Dans notre cas on se place sur une version de dev : `version=dev`.
 
 ```
 cd config
-more intervenants-service.properties
+more utilisateurs-service.properties
 
 git init
-git add intervenants-service.properties
+git add utilisateurs-service.properties
 git commit -am "Version initial"
 ```
 
