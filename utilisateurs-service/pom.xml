@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>org.miage.m2</groupId>
-	<artifactId>intervenants-service</artifactId>
+	<artifactId>utilisateurs-service</artifactId>
 	<version>1.0</version>
-	<name>intervenants-service</name>
-	<description>Demo project for Spring Boot</description>
+	<name>utilisateurs-service</name>
+	<description>Utilisateurs service : CRUD sur des utilisateurs et gestion de leurs abonnements.</description>
 
 	<properties>
 		<java.version>11</java.version>
