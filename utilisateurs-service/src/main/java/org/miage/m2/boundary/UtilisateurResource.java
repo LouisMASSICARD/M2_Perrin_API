@@ -1,7 +1,7 @@
-package org.miage.intervenantservice.boundary;
+package org.miage.m2.boundary;
 
-import org.miage.intervenantservice.entity.Intervenant;
+import org.miage.m2.entity.Utilisateur;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UtilisateurResource extends JpaRepository<Intervenant, String> {
+public interface UtilisateurResource extends JpaRepository<Utilisateur, String> {
 }

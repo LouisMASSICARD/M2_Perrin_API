@@ -1,4 +1,4 @@
-package org.miage.intervenantservice.boundary;
+package org.miage.m2.boundary;
 
 import java.lang.reflect.Field;
 import java.net.URI;
@@ -9,9 +9,10 @@ import java.util.Optional;
 import java.util.UUID;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
-import org.miage.intervenantservice.entity.Intervenant;
-import org.miage.intervenantservice.entity.IntervenantInput;
-import org.miage.intervenantservice.entity.IntervenantValidator;
+
+import org.miage.m2.entity.Utilisateur;
+import org.miage.m2.entity.UtilisateurInput;
+import org.miage.m2.entity.UtilisateurValidator;
 import org.springframework.hateoas.server.ExposesResourceFor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -33,110 +34,114 @@ import org.springframework.util.ReflectionUtils;
 
 
 @RestController
-@RequestMapping(value="/intervenants", produces=MediaType.APPLICATION_JSON_VALUE)
-@ExposesResourceFor(Intervenant.class)
+@RequestMapping(value="/utilisateurs", produces=MediaType.APPLICATION_JSON_VALUE)
+@ExposesResourceFor(Utilisateur.class)
 public class UtilisateurRepresentation {
     
-    private final UtilisateurResource ir;
-    private final IntervenantValidator validator;
+    private final UtilisateurResource utilisateurRessource;
+    private final UtilisateurValidator validator;
 
-    public UtilisateurRepresentation(UtilisateurResource ir, IntervenantValidator ival) {
-        this.ir = ir;
-        this.validator = ival;
+    public UtilisateurRepresentation(UtilisateurResource utilisateurResource, UtilisateurValidator utilisateurValidator) {
+        this.utilisateurRessource = utilisateurResource;
+        this.validator = utilisateurValidator;
     }
 
     // GET all
     @GetMapping
     public ResponseEntity<?> getAllIntervenants() {
-        Iterable<Intervenant> all = ir.findAll();
-        return ResponseEntity.ok(intervenantToResource(all));
+        Iterable<Utilisateur> all = utilisateurRessource.findAll();
+        return ResponseEntity.ok(utilisateurToResource(all));
     }
 
     // GET one
-    @GetMapping(value="/{intervenantId}")
-    public ResponseEntity<?> getIntervenant(@PathVariable("intervenantId") String id) {
-        return Optional.ofNullable(ir.findById(id)).filter(Optional::isPresent)
-        .map(i -> ResponseEntity.ok(intervenantToResource(i.get(), true)))
+    @GetMapping(value="/{utilisateurID}")
+    public ResponseEntity<?> getIntervenant(@PathVariable("utilisateurID") String id) {
+        return Optional.ofNullable(utilisateurRessource.findById(id)).filter(Optional::isPresent)
+        .map(utilisateur -> ResponseEntity.ok(utilisateurToResource(utilisateur.get(), true)))
         .orElse(ResponseEntity.notFound().build());
     }
 
     // POST
     @PostMapping
     @Transactional
-    public ResponseEntity<?> save(@RequestBody @Valid IntervenantInput intervenant) {
-        Intervenant i = new Intervenant(UUID.randomUUID().toString(),
-        intervenant.getNom(), intervenant.getPrenom(), intervenant.getCommune(),
-        intervenant.getCodepostal());
-        Intervenant saved = ir.save(i);
+    public ResponseEntity<?> save(@RequestBody @Valid UtilisateurInput utilisateur) {
+    	Utilisateur user = new Utilisateur(
+    			UUID.randomUUID().toString(),
+    			utilisateur.getNom(),
+    			utilisateur.getPrenom(),
+    			utilisateur.getMail(),
+    			Utilisateur.UTILISATEUR_ACTIF);
+    	Utilisateur saved = utilisateurRessource.save(user);
         URI location = linkTo(UtilisateurRepresentation.class).slash(saved.getId()).toUri();
         return ResponseEntity.created(location).build();
     }
 
-        // DELETE
-        @DeleteMapping(value = "/{intervenantId}")
-        @Transactional
-        public ResponseEntity<?> deleteIntervenant(@PathVariable("intervenantId") String intervenantId) {
-            Optional<Intervenant> intervenant = ir.findById(intervenantId);
-            if (intervenant.isPresent()) {
-                ir.delete(intervenant.get());
-            }
-            return ResponseEntity.noContent().build();
+    // DELETE
+    @DeleteMapping(value = "/{utilisateurID}")
+    @Transactional
+    public ResponseEntity<?> deleteIntervenant(@PathVariable("utilisateurID") String utilisateurID) {
+        Optional<Utilisateur> utilisateur = utilisateurRessource.findById(utilisateurID);
+        if (utilisateur.isPresent()) {
+            utilisateurRessource.delete(utilisateur.get());
         }
+        return ResponseEntity.noContent().build();
+    }
     
-      // PUT
-      @PutMapping(value = "/{intervenantId}")
-      @Transactional
-      public ResponseEntity<?> updateIntervenant(@RequestBody Intervenant intervenant,
-              @PathVariable("intervenantId") String intervenantId) {
-          Optional<Intervenant> body = Optional.ofNullable(intervenant);
-          if (!body.isPresent()) {
-              return ResponseEntity.badRequest().build();
-          }
-          if (!ir.existsById(intervenantId)) {
-              return ResponseEntity.notFound().build();
-          }
-          intervenant.setId(intervenantId);
-          Intervenant result = ir.save(intervenant);
-          return ResponseEntity.ok().build();
-      }
+    // PUT
+    @PutMapping(value = "/{utilisateurID}")
+    @Transactional
+    public ResponseEntity<?> updateIntervenant(@RequestBody Utilisateur utilisateur, @PathVariable("utilisateurID") String utilisateurID) {
+        Optional<Utilisateur> body = Optional.ofNullable(utilisateur);
+        if (!body.isPresent()) {
+            return ResponseEntity.badRequest().build();
+        }
+        if (!utilisateurRessource.existsById(utilisateurID)) {
+            return ResponseEntity.notFound().build();
+        }
+        utilisateur.setId(utilisateurID);
+        Utilisateur result = utilisateurRessource.save(utilisateur);
+        return ResponseEntity.ok().build();
+    }
 
     // PATCH
-    @PatchMapping(value = "/{intervenantId}")
+    @PatchMapping(value = "/{intervenantID}")
     @Transactional
-    public ResponseEntity<?> updateIntervenantPartiel(@PathVariable("intervenantId") String intervenantId,
-            @RequestBody Map<Object, Object> fields) {
-        Optional<Intervenant> body = ir.findById(intervenantId);
+    public ResponseEntity<?> updateIntervenantPartiel(@PathVariable("intervenantID") String utilisateurID, @RequestBody Map<Object, Object> fields) {
+        Optional<Utilisateur> body = utilisateurRessource.findById(utilisateurID);
         if (body.isPresent()) {
-            Intervenant intervenant = body.get();
+        	Utilisateur utilisateur = body.get();
             fields.forEach((f, v) -> {
-                Field field = ReflectionUtils.findField(Intervenant.class, f.toString());
+                Field field = ReflectionUtils.findField(Utilisateur.class, f.toString());
                 field.setAccessible(true);
-                ReflectionUtils.setField(field, intervenant, v);
+                ReflectionUtils.setField(field, utilisateur, v);
             });
-            validator.validate(new IntervenantInput(intervenant.getNom(), intervenant.getPrenom(),
-                    intervenant.getCommune(), intervenant.getCodepostal()));
-            intervenant.setId(intervenantId);
-            ir.save(intervenant);
+            validator.validate(new UtilisateurInput(
+            		utilisateur.getNom(),
+            		utilisateur.getPrenom(),
+                    utilisateur.getMail(),
+                    utilisateur.getStatut()));
+            utilisateur.setId(utilisateurID);
+            utilisateurRessource.save(utilisateur);
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();
     }
 
-      private CollectionModel<EntityModel<Intervenant>> intervenantToResource(Iterable<Intervenant> intervenants) {
+    private CollectionModel<EntityModel<Utilisateur>> utilisateurToResource(Iterable<Utilisateur> utilisateurs) {
         Link selfLink = linkTo(methodOn(UtilisateurRepresentation.class).getAllIntervenants()).withSelfRel();
-        List<EntityModel<Intervenant>> intervenantResources = new ArrayList();
-        intervenants.forEach(intervenant -> intervenantResources.add(intervenantToResource(intervenant, false)));
+        List<EntityModel<Utilisateur>> intervenantResources = new ArrayList();
+        utilisateurs.forEach(intervenant -> intervenantResources.add(utilisateurToResource(intervenant, false)));
         return  CollectionModel.of(intervenantResources, selfLink);
     }
 
-    private EntityModel<Intervenant> intervenantToResource(Intervenant intervenant, Boolean collection) {
-        var selfLink = linkTo(UtilisateurRepresentation.class).slash(intervenant.getId()).withSelfRel();
+    private EntityModel<Utilisateur> utilisateurToResource(Utilisateur utilisateur, Boolean collection) {
+        var selfLink = linkTo(UtilisateurRepresentation.class).slash(utilisateur.getId()).withSelfRel();
         if (Boolean.TRUE.equals(collection)) {
             Link collectionLink = linkTo(methodOn(UtilisateurRepresentation.class).getAllIntervenants())
                     .withRel("collection");
-            return EntityModel.of(intervenant, selfLink, collectionLink);
+            return EntityModel.of(utilisateur, selfLink, collectionLink);
         } else {
-            return EntityModel.of(intervenant, selfLink);
+            return EntityModel.of(utilisateur, selfLink);
         }
     }
 

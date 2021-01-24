@@ -17,8 +17,8 @@ public class UtilisateurValidator {
     this.validator = validator;
   }
 
-  public void validate(UtilisateurInput intervenant) {
-    Set<ConstraintViolation<UtilisateurInput>> violations = validator.validate(intervenant);
+  public void validate(UtilisateurInput utilisateur) {
+    Set<ConstraintViolation<UtilisateurInput>> violations = validator.validate(utilisateur);
     if (!violations.isEmpty()) {
       throw new ConstraintViolationException(violations);
     }

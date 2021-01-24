@@ -12,16 +12,33 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor      // ATTENTION, INDISPENSABLE POUR JPA !
 @AllArgsConstructor
-public class Intervenant implements Serializable {
+public class Utilisateur implements Serializable {
 
     private static final long serialVersionUID = 8765432234567L;
+
+    /*
+    Utilisateur :
+        • id_user
+        • nom
+        • prenom
+        • mail  => identification
+        • statut => actif || supprime
+    */
+
+    public final static String UTILISATEUR_ACTIF = "actif";
+    public final static String UTILISATEUR_SUPPRIME = "supprime";
 
     @Id
     private String id;
     private String nom;
     private String prenom;
-    private String commune;
-    private String codepostal;
+    private String mail;
+    private String statut;
 
-    
+    public Utilisateur(String nom, String prenom, String mail) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.mail = mail;
+        this.statut = UTILISATEUR_ACTIF;
+    }
 }
