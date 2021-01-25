@@ -14,8 +14,10 @@ import org.miage.m2.entity.Utilisateur;
 import org.miage.m2.entity.UtilisateurInput;
 import org.miage.m2.entity.UtilisateurValidator;
 import org.springframework.hateoas.server.ExposesResourceFor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.ResponseEntity.BodyBuilder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -48,14 +50,14 @@ public class UtilisateurRepresentation {
 
     // GET all
     @GetMapping
-    public ResponseEntity<?> getAllIntervenants() {
+    public ResponseEntity<?> getAllUtilisateurs() {
         Iterable<Utilisateur> all = utilisateurRessource.findAll();
         return ResponseEntity.ok(utilisateurToResource(all));
     }
 
     // GET one
     @GetMapping(value="/{utilisateurID}")
-    public ResponseEntity<?> getIntervenant(@PathVariable("utilisateurID") String id) {
+    public ResponseEntity<?> getUtilisateur(@PathVariable("utilisateurID") String id) {
         return Optional.ofNullable(utilisateurRessource.findById(id)).filter(Optional::isPresent)
         .map(utilisateur -> ResponseEntity.ok(utilisateurToResource(utilisateur.get(), true)))
         .orElse(ResponseEntity.notFound().build());
@@ -79,20 +81,45 @@ public class UtilisateurRepresentation {
     // DELETE
     @DeleteMapping(value = "/{utilisateurID}")
     @Transactional
-    public ResponseEntity<?> deleteIntervenant(@PathVariable("utilisateurID") String utilisateurID) {
+    public ResponseEntity<?> deleteUtilisateur(@PathVariable("utilisateurID") String utilisateurID) {
         Optional<Utilisateur> utilisateur = utilisateurRessource.findById(utilisateurID);
         if (utilisateur.isPresent()) {
-            utilisateurRessource.delete(utilisateur.get());
+//            utilisateurRessource.delete(utilisateur.get());
+        	Utilisateur user = utilisateur.get();
+        	System.out.println(user);
+        	user.setStatut(Utilisateur.UTILISATEUR_SUPPRIME);
+        	System.out.println(user);
+            Utilisateur result = utilisateurRessource.save(user);
+            System.out.println(result);
+//            return ResponseEntity.ok(utilisateurToResource(result, true));
+            
+//            return ResponseEntity.noContent().build();
+//            return ResponseEntity.status(201).build().of(utilisateurToResource(result, true));
+            
+//            System.out.println(ResponseEntity.status(HttpStatus.NO_CONTENT));
+//            System.out.println(ResponseEntity.status(HttpStatus.NO_CONTENT).body(utilisateurToResource(result, true)));
+            
+            BodyBuilder body = ResponseEntity.status(204);
+            ResponseEntity<?> response = body.body(utilisateurToResource(result, true));
+            
+            System.out.println(body);
+            System.out.println(response);
+            
+            return response;
+            
+//            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(utilisateurToResource(result, true));
+
+        } else {
+        	return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.noContent().build();
     }
     
     // PUT
     @PutMapping(value = "/{utilisateurID}")
     @Transactional
-    public ResponseEntity<?> updateIntervenant(@RequestBody Utilisateur utilisateur, @PathVariable("utilisateurID") String utilisateurID) {
+    public ResponseEntity<?> updateUtilisateur(@RequestBody Utilisateur utilisateur, @PathVariable("utilisateurID") String utilisateurID) {
         Optional<Utilisateur> body = Optional.ofNullable(utilisateur);
-        if (!body.isPresent()) {
+        if (!body.isPresent()) {	
             return ResponseEntity.badRequest().build();
         }
         if (!utilisateurRessource.existsById(utilisateurID)) {
@@ -100,13 +127,14 @@ public class UtilisateurRepresentation {
         }
         utilisateur.setId(utilisateurID);
         Utilisateur result = utilisateurRessource.save(utilisateur);
-        return ResponseEntity.ok().build();
+//        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(utilisateurToResource(result, true));
     }
 
     // PATCH
     @PatchMapping(value = "/{intervenantID}")
     @Transactional
-    public ResponseEntity<?> updateIntervenantPartiel(@PathVariable("intervenantID") String utilisateurID, @RequestBody Map<Object, Object> fields) {
+    public ResponseEntity<?> updateUtilisateurPartiel(@PathVariable("intervenantID") String utilisateurID, @RequestBody Map<Object, Object> fields) {
         Optional<Utilisateur> body = utilisateurRessource.findById(utilisateurID);
         if (body.isPresent()) {
         	Utilisateur utilisateur = body.get();
@@ -118,18 +146,21 @@ public class UtilisateurRepresentation {
             validator.validate(new UtilisateurInput(
             		utilisateur.getNom(),
             		utilisateur.getPrenom(),
-                    utilisateur.getMail(),
-                    utilisateur.getStatut()));
+                    utilisateur.getMail()));
             utilisateur.setId(utilisateurID);
-            utilisateurRessource.save(utilisateur);
-            return ResponseEntity.ok().build();
+//            utilisateurRessource.save(utilisateur);
+//            return ResponseEntity.ok().build();
+            Utilisateur result = utilisateurRessource.save(utilisateur);
+            return ResponseEntity.ok(utilisateurToResource(result, true));
         }
         return ResponseEntity.notFound().build();
     }
 
+    // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
     private CollectionModel<EntityModel<Utilisateur>> utilisateurToResource(Iterable<Utilisateur> utilisateurs) {
-        Link selfLink = linkTo(methodOn(UtilisateurRepresentation.class).getAllIntervenants()).withSelfRel();
-        List<EntityModel<Utilisateur>> intervenantResources = new ArrayList();
+        Link selfLink = linkTo(methodOn(UtilisateurRepresentation.class).getAllUtilisateurs()).withSelfRel();
+        List<EntityModel<Utilisateur>> intervenantResources = new ArrayList<EntityModel<Utilisateur>>();
         utilisateurs.forEach(intervenant -> intervenantResources.add(utilisateurToResource(intervenant, false)));
         return  CollectionModel.of(intervenantResources, selfLink);
     }
@@ -137,12 +168,23 @@ public class UtilisateurRepresentation {
     private EntityModel<Utilisateur> utilisateurToResource(Utilisateur utilisateur, Boolean collection) {
         var selfLink = linkTo(UtilisateurRepresentation.class).slash(utilisateur.getId()).withSelfRel();
         if (Boolean.TRUE.equals(collection)) {
-            Link collectionLink = linkTo(methodOn(UtilisateurRepresentation.class).getAllIntervenants())
+            Link collectionLink = linkTo(methodOn(UtilisateurRepresentation.class).getAllUtilisateurs())
                     .withRel("collection");
             return EntityModel.of(utilisateur, selfLink, collectionLink);
         } else {
             return EntityModel.of(utilisateur, selfLink);
         }
     }
+    
+//    private EntityModel<Object> utilisateurToObject(Utilisateur utilisateur, Boolean collection) {
+//        var selfLink = linkTo(UtilisateurRepresentation.class).slash(utilisateur.getId()).withSelfRel();
+//        if (Boolean.TRUE.equals(collection)) {
+//            Link collectionLink = linkTo(methodOn(UtilisateurRepresentation.class).getAllUtilisateurs())
+//                    .withRel("collection");
+//            return EntityModel.of(utilisateur, selfLink, collectionLink);
+//        } else {
+//            return EntityModel.of(utilisateur, selfLink);
+//        }
+//    }
 
 }

@@ -25,7 +25,4 @@ public class UtilisateurInput {
     @NotBlank
     @Email
     private String mail;
-    @NotNull
-    @NotBlank
-    private String status;
 }

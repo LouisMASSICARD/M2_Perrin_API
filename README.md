@@ -117,7 +117,7 @@ Pour lister les databases : `\l`
 Exemple de requête :   
 
 ```
-select * from intervenant;
+select * from utilisateur;
 ```
 
 Pour quitter l'invite de commande postgres : `\q`

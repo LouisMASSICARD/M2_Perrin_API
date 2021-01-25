@@ -1,6 +1,8 @@
 package org.miage.m2.entity;
 
 import java.io.Serializable;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -32,6 +34,7 @@ public class Utilisateur implements Serializable {
     private String id;
     private String nom;
     private String prenom;
+    @Column(unique = true)
     private String mail;
     private String statut;
 
