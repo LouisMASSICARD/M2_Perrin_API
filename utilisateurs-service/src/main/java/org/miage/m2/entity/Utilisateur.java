@@ -27,8 +27,8 @@ public class Utilisateur implements Serializable {
         • statut => actif || supprime
     */
 
-    public final static String UTILISATEUR_ACTIF = "actif";
-    public final static String UTILISATEUR_SUPPRIME = "supprime";
+    public final static String UTILISATEUR_STATUT_ACTIF = "actif";
+    public final static String UTILISATEUR_STATUT_SUPPRIME = "supprime";
 
     @Id
     private String id;
@@ -38,10 +38,18 @@ public class Utilisateur implements Serializable {
     private String mail;
     private String statut;
 
+    public Utilisateur(Utilisateur utilisateur) {
+        this.id = utilisateur.id;
+        this.nom = utilisateur.nom;
+        this.prenom = utilisateur.prenom;
+        this.mail = utilisateur.mail;
+        this.statut = utilisateur.statut;
+    }
+
     public Utilisateur(String nom, String prenom, String mail) {
         this.nom = nom;
         this.prenom = prenom;
         this.mail = mail;
-        this.statut = UTILISATEUR_ACTIF;
+        this.statut = UTILISATEUR_STATUT_ACTIF;
     }
 }

@@ -72,7 +72,7 @@ public class UtilisateurRepresentation {
     			utilisateur.getNom(),
     			utilisateur.getPrenom(),
     			utilisateur.getMail(),
-    			Utilisateur.UTILISATEUR_ACTIF);
+    			Utilisateur.UTILISATEUR_STATUT_ACTIF);
     	Utilisateur saved = utilisateurRessource.save(user);
         URI location = linkTo(UtilisateurRepresentation.class).slash(saved.getId()).toUri();
         return ResponseEntity.created(location).build();
@@ -87,7 +87,7 @@ public class UtilisateurRepresentation {
 //            utilisateurRessource.delete(utilisateur.get());
         	Utilisateur user = utilisateur.get();
         	System.out.println(user);
-        	user.setStatut(Utilisateur.UTILISATEUR_SUPPRIME);
+        	user.setStatut(Utilisateur.UTILISATEUR_STATUT_SUPPRIME);
         	System.out.println(user);
             Utilisateur result = utilisateurRessource.save(user);
             System.out.println(result);
