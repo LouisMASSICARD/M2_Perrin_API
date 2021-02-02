@@ -21,11 +21,9 @@ import io.swagger.v3.oas.models.info.Info;
 public class CoursServiceApplication {
 
 	public static void main(String[] args) {
-		// Server webServer = Server.createWebServer("-web,-webAllowOthers,true,-webPort,8082").start();
-		// Server server = Server.createTcpServer("-tcp,-tcpAllowOthers,true,-tcpPort,9092").start();
 		SpringApplication.run(CoursServiceApplication.class, args);
 	}
-
+	
 	@Bean
 	public OpenAPI customOpenAPI() {
 		return new OpenAPI().info(new Info()

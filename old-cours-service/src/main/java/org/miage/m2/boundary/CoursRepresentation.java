@@ -50,9 +50,8 @@ public class CoursRepresentation {
 
     // GET all
     @GetMapping
-    public ResponseEntity<?> getAllCours() {
+    public ResponseEntity<?> getAllCourss() {
         Iterable<Cours> all = coursRessource.findAll();
-        System.out.println("GET ALL");
         return ResponseEntity.ok(coursToResource(all));
     }
 
@@ -164,17 +163,17 @@ public class CoursRepresentation {
 
     // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
-    private CollectionModel<EntityModel<Cours>> coursToResource(Iterable<Cours> cours) {
-        Link selfLink = linkTo(methodOn(CoursRepresentation.class).getAllCours()).withSelfRel();
-        List<EntityModel<Cours>> coursResources = new ArrayList<EntityModel<Cours>>();
-        cours.forEach(cour -> coursResources.add(coursToResource(cour, false)));
-        return  CollectionModel.of(coursResources, selfLink);
+    private CollectionModel<EntityModel<Cours>> coursToResource(Iterable<Cours> courss) {
+        Link selfLink = linkTo(methodOn(CoursRepresentation.class).getAllCourss()).withSelfRel();
+        List<EntityModel<Cours>> intervenantResources = new ArrayList<EntityModel<Cours>>();
+        courss.forEach(intervenant -> intervenantResources.add(coursToResource(intervenant, false)));
+        return  CollectionModel.of(intervenantResources, selfLink);
     }
 
     private EntityModel<Cours> coursToResource(Cours cours, Boolean collection) {
         var selfLink = linkTo(CoursRepresentation.class).slash(cours.getId()).withSelfRel();
         if (Boolean.TRUE.equals(collection)) {
-            Link collectionLink = linkTo(methodOn(CoursRepresentation.class).getAllCours())
+            Link collectionLink = linkTo(methodOn(CoursRepresentation.class).getAllCourss())
                     .withRel("collection");
             return EntityModel.of(cours, selfLink, collectionLink);
         } else {

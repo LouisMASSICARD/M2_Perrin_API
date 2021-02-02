@@ -1,0 +1,131 @@
+package org.miage.m2.entity;
+
+import java.io.Serializable;
+import java.util.Set;
+
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+@Entity
+public class Cours implements Serializable {
+
+    private static final long serialVersionUID = 1234567891234L;
+
+    /*
+    Cours :
+        • id_cours
+        • nom => theme
+        • description => description_theme
+        • statut = > gratuit || payant
+        • prix
+        • []id_episode => ensemble/liste d’épisodes vidéo
+    */
+
+    public final static String COURS_STATUT_ACTIF = "actif";
+    public final static String COURS_STATUT_SUPPRIME = "supprime";
+
+    public final static String COURS_ACCES_PAYANT = "payant";
+    public final static String COURS_ACCES_GRATUIT = "gratuit";
+
+    @Id
+    private String id;
+    private String nom;
+    private String description;
+    private String statut;
+    private String acces;
+    private Long prix;
+    @ElementCollection
+    @JsonProperty("episodes-id")
+    private Set<String> episodesID;
+
+    public Cours() {
+    }
+
+    public Cours(Cours cours) {
+    	this.id = cours.id;
+    	this.nom = cours.nom;
+    	this.description = cours.description;
+        this.statut = cours.statut;
+        this.acces = cours.acces;
+        this.prix = cours.prix;
+        this.episodesID = cours.episodesID;
+    }
+    
+    public Cours(String nom, String description) {
+        this.nom = nom;
+        this.description = description;
+        this.statut = COURS_STATUT_ACTIF;
+        this.acces = COURS_ACCES_GRATUIT;
+        this.prix = 0L;
+    }
+
+
+    public Cours(String id, String nom, String description, String statut, String acces, Long prix, Set<String> episodesID) {
+        this.id = id;
+        this.nom = nom;
+        this.description = description;
+        this.statut = statut;
+        this.acces = acces;
+        this.prix = prix;
+        this.episodesID = episodesID;
+    }
+
+    public String getId() {
+        return this.id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getNom() {
+        return this.nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getStatut() {
+        return this.statut;
+    }
+
+    public void setStatut(String statut) {
+        this.statut = statut;
+    }
+
+    public String getAcces() {
+        return this.acces;
+    }
+
+    public void setAcces(String acces) {
+        this.acces = acces;
+    }
+
+    public Long getPrix() {
+        return this.prix;
+    }
+
+    public void setPrix(Long prix) {
+        this.prix = prix;
+    }
+
+    public Set<String> getEpisodesID() {
+        return this.episodesID;
+    }
+
+    public void setEpisodesID(Set<String> episodesID) {
+        this.episodesID = episodesID;
+    }
+}

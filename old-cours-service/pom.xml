@@ -12,7 +12,7 @@
 	<artifactId>cours-service</artifactId>
 	<version>1.0</version>
 	<name>cours-service</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Cours service : CRUD sur des cours et gestion de leurs épisodes.</description>
 
 	<properties>
 		<java.version>11</java.version>
@@ -20,12 +20,10 @@
 	</properties>
 
 	<dependencies>
-		<!-- ACTUATOR -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
-		<!-- RABBIT MQ -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
@@ -37,8 +35,7 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-stream-binder-rabbit</artifactId>
-		</dependency>
-		<!-- ZIPKIN -->
+        </dependency>
 		<!-- <dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-zipkin</artifactId>
