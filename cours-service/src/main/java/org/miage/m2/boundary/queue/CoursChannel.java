@@ -1,4 +1,4 @@
-package org.miage.m2.boundary;
+package org.miage.m2.boundary.queue;
 
 import org.springframework.cloud.stream.annotation.Input;
 import org.springframework.messaging.SubscribableChannel;

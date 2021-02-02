@@ -2,6 +2,7 @@ package org.miage.m2.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -49,6 +50,16 @@ public class Episode implements Serializable {
 		this.concept = concept;
 		this.href = href;
 		this.statut = statut;
+	}
+
+	@Override
+	public String toString() {
+		return "{" +
+			" id='" + getId() + "'" +
+			", concept='" + getConcept() + "'" +
+			", href='" + getHref() + "'" +
+			", statut='" + getStatut() + "'" +
+			"}";
 	}
 
 	public String getId() {

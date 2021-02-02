@@ -1,6 +1,8 @@
-package org.miage.m2.boundary;
+package org.miage.m2.boundary.queue;
 
 import java.util.Collections;
+
+import org.miage.m2.boundary.resource.CoursRessource;
 import org.miage.m2.entity.Cours;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.StreamListener;

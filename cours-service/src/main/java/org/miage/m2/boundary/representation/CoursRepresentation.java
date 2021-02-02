@@ -1,4 +1,4 @@
-package org.miage.m2.boundary;
+package org.miage.m2.boundary.representation;
 
 import java.lang.reflect.Field;
 import java.net.URI;
@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.logging.Logger;
+
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
@@ -27,8 +29,9 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import org.miage.m2.entity.Cours;
-import org.miage.m2.entity.CoursInput;
-import org.miage.m2.entity.CoursValidator;
+import org.miage.m2.validation.CoursInput;
+import org.miage.m2.validation.CoursValidator;
+import org.miage.m2.boundary.resource.CoursResource;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
@@ -40,6 +43,8 @@ import org.springframework.util.ReflectionUtils;
 @ExposesResourceFor(Cours.class)
 public class CoursRepresentation {
     
+    private static final Logger LOG = Logger.getLogger(CoursRepresentation.class.getName());
+
     private final CoursResource coursRessource;
     private final CoursValidator validator;
 
@@ -51,23 +56,28 @@ public class CoursRepresentation {
     // GET all
     @GetMapping
     public ResponseEntity<?> getAllCours() {
+        LOG.info("[Cours] GET ALL");
         Iterable<Cours> all = coursRessource.findAll();
-        System.out.println("GET ALL");
+        for (Cours cours : all) {
+            LOG.warning("[Cours] : " + cours.toString());
+        }
         return ResponseEntity.ok(coursToResource(all));
     }
 
     // GET one
     @GetMapping(value="/{coursID}")
-    public ResponseEntity<?> getCours(@PathVariable("coursID") String id) {
-        return Optional.ofNullable(coursRessource.findById(id)).filter(Optional::isPresent)
+    public ResponseEntity<?> getCours(@PathVariable("coursID") String coursID) {
+        LOG.info("[Cours] GET ONE (coursID) : " + coursID);
+        return Optional.ofNullable(coursRessource.findById(coursID)).filter(Optional::isPresent)
         .map(cours -> ResponseEntity.ok(coursToResource(cours.get(), true)))
         .orElse(ResponseEntity.notFound().build());
     }
-
+    
     // POST
     @PostMapping
     @Transactional
     public ResponseEntity<?> save(@RequestBody @Valid CoursInput cours) {
+        LOG.info("[Cours] POST : " + cours.toString());
         Cours user = new Cours(
                 UUID.randomUUID().toString(),
     			cours.getNom(),
@@ -85,6 +95,7 @@ public class CoursRepresentation {
     @DeleteMapping(value = "/{coursID}")
     @Transactional
     public ResponseEntity<?> deleteCours(@PathVariable("coursID") String coursID) {
+        LOG.info("[Cours] DELETE (coursID) : " + coursID);
         Optional<Cours> cours = coursRessource.findById(coursID);
         if (cours.isPresent()) {
 //            coursRessource.delete(cours.get());
@@ -121,6 +132,7 @@ public class CoursRepresentation {
     @PutMapping(value = "/{coursID}")
     @Transactional
     public ResponseEntity<?> updateCours(@RequestBody Cours cours, @PathVariable("coursID") String coursID) {
+        LOG.info("[Cours] PUT (coursID - cours) : " + coursID + " - " + cours.toString());
         Optional<Cours> body = Optional.ofNullable(cours);
         if (!body.isPresent()) {	
             return ResponseEntity.badRequest().build();
@@ -130,14 +142,15 @@ public class CoursRepresentation {
         }
         cours.setId(coursID);
         Cours result = coursRessource.save(cours);
-//        return ResponseEntity.ok().build();
+        //        return ResponseEntity.ok().build();
         return ResponseEntity.ok(coursToResource(result, true));
     }
-
+    
     // PATCH
-    @PatchMapping(value = "/{intervenantID}")
+    @PatchMapping(value = "/{coursID}")
     @Transactional
-    public ResponseEntity<?> updateCoursPartiel(@PathVariable("intervenantID") String coursID, @RequestBody Map<Object, Object> fields) {
+    public ResponseEntity<?> updateCoursPartiel(@PathVariable("coursID") String coursID, @RequestBody Map<Object, Object> fields) {
+        LOG.info("[Cours] PATCH (coursID - cours) : " + coursID + " - " + fields);
         Optional<Cours> body = coursRessource.findById(coursID);
         if (body.isPresent()) {
         	Cours cours = body.get();
@@ -166,18 +179,20 @@ public class CoursRepresentation {
     
     private CollectionModel<EntityModel<Cours>> coursToResource(Iterable<Cours> cours) {
         Link selfLink = linkTo(methodOn(CoursRepresentation.class).getAllCours()).withSelfRel();
+        LOG.severe("Collection selfLink : " + selfLink);
         List<EntityModel<Cours>> coursResources = new ArrayList<EntityModel<Cours>>();
         cours.forEach(cour -> coursResources.add(coursToResource(cour, false)));
         return  CollectionModel.of(coursResources, selfLink);
     }
-
+    
     private EntityModel<Cours> coursToResource(Cours cours, Boolean collection) {
         var selfLink = linkTo(CoursRepresentation.class).slash(cours.getId()).withSelfRel();
+        LOG.warning("Cours selfLink : " + selfLink);
         if (Boolean.TRUE.equals(collection)) {
-            Link collectionLink = linkTo(methodOn(CoursRepresentation.class).getAllCours())
-                    .withRel("collection");
+            Link collectionLink = linkTo(methodOn(CoursRepresentation.class).getAllCours()).withRel("collection");
             return EntityModel.of(cours, selfLink, collectionLink);
         } else {
+            LOG.info("Cours : " + EntityModel.of(cours, selfLink));
             return EntityModel.of(cours, selfLink);
         }
     }

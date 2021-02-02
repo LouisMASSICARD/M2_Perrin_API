@@ -1,9 +1,10 @@
-package org.miage.m2.boundary;
+package org.miage.m2.boundary.client;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 import java.util.Optional;
 
+import org.miage.m2.boundary.resource.EpisodeRessource;
 import org.miage.m2.entity.Episode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

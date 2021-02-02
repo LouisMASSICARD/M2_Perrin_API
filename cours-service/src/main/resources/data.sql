@@ -54,6 +54,7 @@ VALUES ('4fc174ca-647c-11eb-ae93-0242ac130002', 'Java-Spring', 'JEE, Spring et M
 INSERT INTO episode (id, concept, href, statut) 
 VALUES ('ddc2ced8-6489-11eb-ae93-0242ac130002', 'Introduciton à Docker', 'https://www.youtube.com/watch?v=JSLpG_spOBM', 'actif');
 -- INSERT INTO cours_episodes_id VALUES ('372049f0-647c-11eb-ae93-0242ac130002', 'ddc2ced8-6489-11eb-ae93-0242ac130002');
+INSERT INTO cours_episodes VALUES ('372049f0-647c-11eb-ae93-0242ac130002', 'ddc2ced8-6489-11eb-ae93-0242ac130002');
 
 INSERT INTO episode (id, concept, href, statut) 
 VALUES ('c758595a-648a-11eb-ae93-0242ac130002', 'Docker Images & Run Containers', 'https://www.youtube.com/watch?v=CcxbHkqzJuI', 'actif');

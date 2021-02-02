@@ -1,7 +1,9 @@
-package org.miage.m2.boundary;
+package org.miage.m2.boundary.representation;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.miage.m2.boundary.client.EpisodeClient;
 import org.miage.m2.entity.Cours;
 import org.miage.m2.entity.Detail;
 import org.miage.m2.entity.Episode;

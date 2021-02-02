@@ -1,4 +1,4 @@
-package org.miage.m2.entity;
+package org.miage.m2.validation;
 
 import java.util.Set;
 

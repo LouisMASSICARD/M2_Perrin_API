@@ -1,4 +1,4 @@
-package org.miage.m2.entity;
+package org.miage.m2.validation;
 
 import java.util.Set;
 
@@ -27,4 +27,15 @@ public class CoursInput {
     private Long prix;
     private Set<String> episodesID;
 
+    @Override
+    public String toString() {
+        return "{" +
+            " nom='" + getNom() + "'" +
+            ", description='" + getDescription() + "'" +
+            ", statut='" + getStatut() + "'" +
+            ", acces='" + getAcces() + "'" +
+            ", prix='" + getPrix() + "'" +
+            ", episodesID='" + getEpisodesID() + "'" +
+            "}";
+    }
 }

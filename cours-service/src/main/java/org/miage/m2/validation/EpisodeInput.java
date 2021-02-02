@@ -1,4 +1,4 @@
-package org.miage.m2.entity;
+package org.miage.m2.validation;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -22,6 +22,15 @@ public class EpisodeInput {
         this.concept = concept;
         this.href = href;
         this.statut = statut;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+            " concept='" + getConcept() + "'" +
+            ", href='" + getHref() + "'" +
+            ", statut='" + getStatut() + "'" +
+            "}";
     }
     
     public String getConcept() {

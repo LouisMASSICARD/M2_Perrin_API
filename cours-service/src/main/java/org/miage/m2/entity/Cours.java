@@ -3,7 +3,9 @@ package org.miage.m2.entity;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
+import javax.persistence.JoinColumn;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -38,6 +40,10 @@ public class Cours implements Serializable {
     private String acces;
     private Long prix;
     @ElementCollection
+    @CollectionTable(
+        name="episode",
+        joinColumns=@JoinColumn(name="coursID")
+    )
     @JsonProperty("episodes-id")
     private Set<String> episodesID;
 
@@ -71,6 +77,19 @@ public class Cours implements Serializable {
         this.acces = acces;
         this.prix = prix;
         this.episodesID = episodesID;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+            " id='" + getId() + "'" +
+            ", nom='" + getNom() + "'" +
+            ", description='" + getDescription() + "'" +
+            ", statut='" + getStatut() + "'" +
+            ", acces='" + getAcces() + "'" +
+            ", prix='" + getPrix() + "'" +
+            ", episodesID='" + getEpisodesID() + "'" +
+            "}";
     }
 
     public String getId() {
