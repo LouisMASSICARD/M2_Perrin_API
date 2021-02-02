@@ -1,17 +1,23 @@
 package org.miage.m2.entity;
 
 import java.io.Serializable;
+// import java.util.Collection;
 import java.util.Set;
 
 import javax.persistence.CollectionTable;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.JoinColumn;
+// import javax.persistence.OneToMany;
+// import javax.persistence.ManyToOne;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
+@JsonIgnoreProperties({ "episodes" })
 public class Cours implements Serializable {
 
     private static final long serialVersionUID = 1234567891234L;
@@ -42,8 +48,9 @@ public class Cours implements Serializable {
     @ElementCollection
     @CollectionTable(
         name="episode",
-        joinColumns=@JoinColumn(name="coursID")
+        joinColumns=@JoinColumn(name="cours_id")
     )
+    @Column(name="id")
     @JsonProperty("episodes-id")
     private Set<String> episodesID;
 

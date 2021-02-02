@@ -1,10 +1,3 @@
--- INSERT INTO cours ( id, nom, description) VALUES ('microservices', 'SOA et Microservices', 'Un cours sur les SOA');
--- INSERT INTO cours_intervenants_id VALUES ('microservices', 'de7d9052-4961-4b4f-938a-3cd12cbe1f82');
-
--- INSERT INTO cours ( id, nom, description) VALUES ('big-data', 'Big Data', 'Un cours sur les solutions Big Data');
--- INSERT INTO cours_intervenants_id VALUES ('big-data', 'de7d9052-4961-4b4f-938a-3cd12cbe1f82');
--- INSERT INTO cours_intervenants_id VALUES ('big-data', '425e7701-02c6-4de3-9333-a2459eece1c8');
-
 -- Cours :
 --     • id_cours
 --     • nom => theme
@@ -16,34 +9,18 @@
 
 INSERT INTO cours ( id, nom, description, statut, acces, prix) 
 VALUES ('372049f0-647c-11eb-ae93-0242ac130002', 'Docker', 'Docker... Une alternative aux VM !', 'actif', 'gratuit', 0);  
--- INSERT INTO cours_episodes_id VALUES ('372049f0-647c-11eb-ae93-0242ac130002', 'ddc2ced8-6489-11eb-ae93-0242ac130002');
--- INSERT INTO cours_episodes_id VALUES ('372049f0-647c-11eb-ae93-0242ac130002', 'c758595a-648a-11eb-ae93-0242ac130002');
--- INSERT INTO cours_episodes_id VALUES ('372049f0-647c-11eb-ae93-0242ac130002', '181003d4-648b-11eb-ae93-0242ac130002');
 
 INSERT INTO cours ( id, nom, description, statut, acces, prix) 
 VALUES ('3d96e1a4-647c-11eb-ae93-0242ac130002', 'NosQL', 'Les NoSQL, une réponse au Big Data.', 'actif', 'gratuit', 0);
--- INSERT INTO cours_episodes_id VALUES ('3d96e1a4-647c-11eb-ae93-0242ac130002', '6ec2d90e-648b-11eb-ae93-0242ac130002');
--- INSERT INTO cours_episodes_id VALUES ('3d96e1a4-647c-11eb-ae93-0242ac130002', '53d2c884-648b-11eb-ae93-0242ac130002');
 
 INSERT INTO cours ( id, nom, description, statut, acces, prix) 
 VALUES ('4346f850-647c-11eb-ae93-0242ac130002', 'UML', 'Un super cours sur la modélisation !', 'supprime', 'gratuit', 0);
--- INSERT INTO cours_episodes_id VALUES ('4346f850-647c-11eb-ae93-0242ac130002', 'd07eb0cc-648c-11eb-ae93-0242ac130002');
--- INSERT INTO cours_episodes_id VALUES ('4346f850-647c-11eb-ae93-0242ac130002', 'd8833806-648c-11eb-ae93-0242ac130002');
--- INSERT INTO cours_episodes_id VALUES ('4346f850-647c-11eb-ae93-0242ac130002', 'dfaa0858-648c-11eb-ae93-0242ac130002');
--- INSERT INTO cours_episodes_id VALUES ('4346f850-647c-11eb-ae93-0242ac130002', 'ac6226f0-648d-11eb-ae93-0242ac130002');
--- INSERT INTO cours_episodes_id VALUES ('4346f850-647c-11eb-ae93-0242ac130002', '19f832b8-648e-11eb-ae93-0242ac130002');
--- INSERT INTO cours_episodes_id VALUES ('4346f850-647c-11eb-ae93-0242ac130002', '24b04650-648e-11eb-ae93-0242ac130002');
--- INSERT INTO cours_episodes_id VALUES ('4346f850-647c-11eb-ae93-0242ac130002', '2d6a5326-648e-11eb-ae93-0242ac130002');
--- INSERT INTO cours_episodes_id VALUES ('4346f850-647c-11eb-ae93-0242ac130002', '171a8894-648d-11eb-ae93-0242ac130002');
 
 INSERT INTO cours ( id, nom, description, statut, acces, prix) 
 VALUES ('4a9a0cfa-647c-11eb-ae93-0242ac130002', 'Java-JEE', 'Java JEE n`aura plus de secret pour vous.', 'supprime', 'payant', 50);
--- INSERT INTO cours_episodes_id VALUES ('4a9a0cfa-647c-11eb-ae93-0242ac130002', '90c72502-648e-11eb-ae93-0242ac130002');
 
 INSERT INTO cours ( id, nom, description, statut, acces, prix) 
 VALUES ('4fc174ca-647c-11eb-ae93-0242ac130002', 'Java-Spring', 'JEE, Spring et Maven un aperçue des dépendaces de base.', 'actif', 'payant', 100);
--- INSERT INTO cours_episodes_id VALUES ('4fc174ca-647c-11eb-ae93-0242ac130002', '5acbf4be-64ac-11eb-ae93-0242ac130002');
--- INSERT INTO cours_episodes_id VALUES ('4fc174ca-647c-11eb-ae93-0242ac130002', '24d20960-64b7-11eb-ae93-0242ac130002');
 
 -- Episode/Video : 
 --     • id_episode
@@ -51,71 +28,54 @@ VALUES ('4fc174ca-647c-11eb-ae93-0242ac130002', 'Java-Spring', 'JEE, Spring et M
 --     • href
 
 -- Docker --
-INSERT INTO episode (id, concept, href, statut) 
-VALUES ('ddc2ced8-6489-11eb-ae93-0242ac130002', 'Introduciton à Docker', 'https://www.youtube.com/watch?v=JSLpG_spOBM', 'actif');
--- INSERT INTO cours_episodes_id VALUES ('372049f0-647c-11eb-ae93-0242ac130002', 'ddc2ced8-6489-11eb-ae93-0242ac130002');
-INSERT INTO cours_episodes VALUES ('372049f0-647c-11eb-ae93-0242ac130002', 'ddc2ced8-6489-11eb-ae93-0242ac130002');
+INSERT INTO episode (id, cours_id, concept, href, statut) 
+VALUES ('ddc2ced8-6489-11eb-ae93-0242ac130002', '372049f0-647c-11eb-ae93-0242ac130002', 'Introduciton à Docker', 'https://www.youtube.com/watch?v=JSLpG_spOBM', 'actif');
 
-INSERT INTO episode (id, concept, href, statut) 
-VALUES ('c758595a-648a-11eb-ae93-0242ac130002', 'Docker Images & Run Containers', 'https://www.youtube.com/watch?v=CcxbHkqzJuI', 'actif');
--- INSERT INTO cours_episodes_id VALUES ('372049f0-647c-11eb-ae93-0242ac130002', 'c758595a-648a-11eb-ae93-0242ac130002');
+INSERT INTO episode (id, cours_id, concept, href, statut) 
+VALUES ('c758595a-648a-11eb-ae93-0242ac130002', '372049f0-647c-11eb-ae93-0242ac130002', 'Docker Images & Run Containers', 'https://www.youtube.com/watch?v=CcxbHkqzJuI', 'actif');
 
-INSERT INTO episode (id, concept, href, statut) 
-VALUES ('181003d4-648b-11eb-ae93-0242ac130002', 'Docker Compose', 'https://www.youtube.com/watch?v=dWcoIxRfs8Y', 'actif');
--- INSERT INTO cours_episodes_id VALUES ('372049f0-647c-11eb-ae93-0242ac130002', '181003d4-648b-11eb-ae93-0242ac130002');
+INSERT INTO episode (id, cours_id, concept, href, statut) 
+VALUES ('181003d4-648b-11eb-ae93-0242ac130002', '372049f0-647c-11eb-ae93-0242ac130002', 'Docker Compose', 'https://www.youtube.com/watch?v=dWcoIxRfs8Y', 'actif');
 
 -- NoSQL --
-INSERT INTO episode (id, concept, href, statut) 
-VALUES ('6ec2d90e-648b-11eb-ae93-0242ac130002', 'Contexte du Big Data', 'https://www.youtube.com/watch?v=an86433PT8Q', 'actif');
--- INSERT INTO cours_episodes_id VALUES ('3d96e1a4-647c-11eb-ae93-0242ac130002', '6ec2d90e-648b-11eb-ae93-0242ac130002');
+INSERT INTO episode (id, cours_id, concept, href, statut) 
+VALUES ('6ec2d90e-648b-11eb-ae93-0242ac130002', '3d96e1a4-647c-11eb-ae93-0242ac130002', 'Contexte du Big Data', 'https://www.youtube.com/watch?v=an86433PT8Q', 'actif');
 
-INSERT INTO episode (id, concept, href, statut) 
-VALUES ('53d2c884-648b-11eb-ae93-0242ac130002', 'Introduciton aux NoSQL', 'https://www.youtube.com/watch?v=MlJ6TNyTWXU', 'actif');
--- INSERT INTO cours_episodes_id VALUES ('3d96e1a4-647c-11eb-ae93-0242ac130002', '53d2c884-648b-11eb-ae93-0242ac130002');
+INSERT INTO episode (id, cours_id, concept, href, statut) 
+VALUES ('53d2c884-648b-11eb-ae93-0242ac130002', '3d96e1a4-647c-11eb-ae93-0242ac130002', 'Introduciton aux NoSQL', 'https://www.youtube.com/watch?v=MlJ6TNyTWXU', 'actif');
 
 -- UML --
-INSERT INTO episode (id, concept, href, statut) 
-VALUES ('d07eb0cc-648c-11eb-ae93-0242ac130002', 'Introduction à l`UML', 'https://www.youtube.com/watch?v=dJd6azZr9Kg', 'actif');
--- INSERT INTO cours_episodes_id VALUES ('4346f850-647c-11eb-ae93-0242ac130002', 'd07eb0cc-648c-11eb-ae93-0242ac130002');
+INSERT INTO episode (id, cours_id, concept, href, statut) 
+VALUES ('d07eb0cc-648c-11eb-ae93-0242ac130002', '4346f850-647c-11eb-ae93-0242ac130002', 'Introduction à l`UML', 'https://www.youtube.com/watch?v=dJd6azZr9Kg', 'actif');
 
-INSERT INTO episode (id, concept, href, statut) 
-VALUES ('d8833806-648c-11eb-ae93-0242ac130002', 'Cas d`utilisation - 1. Diagrammes de cas d`utilisation', 'https://www.youtube.com/watch?v=GC5BdRve38A', 'actif');
--- INSERT INTO cours_episodes_id VALUES ('4346f850-647c-11eb-ae93-0242ac130002', 'd8833806-648c-11eb-ae93-0242ac130002');
+INSERT INTO episode (id, cours_id, concept, href, statut) 
+VALUES ('d8833806-648c-11eb-ae93-0242ac130002', '4346f850-647c-11eb-ae93-0242ac130002', 'Cas d`utilisation - 1. Diagrammes de cas d`utilisation', 'https://www.youtube.com/watch?v=GC5BdRve38A', 'actif');
 
-INSERT INTO episode (id, concept, href, statut) 
-VALUES ('dfaa0858-648c-11eb-ae93-0242ac130002', 'Cas d`utilisation - 2. Scénarios détaillés et diagrammes de séquence', 'https://www.youtube.com/watch?v=1G0omjzh1OQ', 'actif');
--- INSERT INTO cours_episodes_id VALUES ('4346f850-647c-11eb-ae93-0242ac130002', 'dfaa0858-648c-11eb-ae93-0242ac130002');
+INSERT INTO episode (id, cours_id, concept, href, statut) 
+VALUES ('dfaa0858-648c-11eb-ae93-0242ac130002', '4346f850-647c-11eb-ae93-0242ac130002', 'Cas d`utilisation - 2. Scénarios détaillés et diagrammes de séquence', 'https://www.youtube.com/watch?v=1G0omjzh1OQ', 'actif');
 
-INSERT INTO episode (id, concept, href, statut) 
-VALUES ('ac6226f0-648d-11eb-ae93-0242ac130002', 'Diagrammes de classes - 1. Classes et associations', 'https://www.youtube.com/watch?v=8VMMu-vcF60', 'actif');
--- INSERT INTO cours_episodes_id VALUES ('4346f850-647c-11eb-ae93-0242ac130002', 'ac6226f0-648d-11eb-ae93-0242ac130002');
+INSERT INTO episode (id, cours_id, concept, href, statut) 
+VALUES ('ac6226f0-648d-11eb-ae93-0242ac130002', '4346f850-647c-11eb-ae93-0242ac130002', 'Diagrammes de classes - 1. Classes et associations', 'https://www.youtube.com/watch?v=8VMMu-vcF60', 'actif');
 
-INSERT INTO episode (id, concept, href, statut) 
-VALUES ('19f832b8-648e-11eb-ae93-0242ac130002', 'Diagrammes de classes - 2. Associations particulières, héritage', 'https://www.youtube.com/watch?v=nRqTXoiNUHk', 'actif');
--- INSERT INTO cours_episodes_id VALUES ('4346f850-647c-11eb-ae93-0242ac130002', '19f832b8-648e-11eb-ae93-0242ac130002');
+INSERT INTO episode (id, cours_id, concept, href, statut) 
+VALUES ('19f832b8-648e-11eb-ae93-0242ac130002', '4346f850-647c-11eb-ae93-0242ac130002', 'Diagrammes de classes - 2. Associations particulières, héritage', 'https://www.youtube.com/watch?v=nRqTXoiNUHk', 'actif');
 
-INSERT INTO episode (id, concept, href, statut) 
-VALUES ('24b04650-648e-11eb-ae93-0242ac130002', 'Diagrammes de classes - 3. Contraintes', 'https://www.youtube.com/watch?v=a3DWVNWg2Oo', 'actif');
--- INSERT INTO cours_episodes_id VALUES ('4346f850-647c-11eb-ae93-0242ac130002', '24b04650-648e-11eb-ae93-0242ac130002');
+INSERT INTO episode (id, cours_id, concept, href, statut) 
+VALUES ('24b04650-648e-11eb-ae93-0242ac130002', '4346f850-647c-11eb-ae93-0242ac130002', 'Diagrammes de classes - 3. Contraintes', 'https://www.youtube.com/watch?v=a3DWVNWg2Oo', 'actif');
 
-INSERT INTO episode (id, concept, href, statut) 
-VALUES ('2d6a5326-648e-11eb-ae93-0242ac130002', 'Diagrammes de classes - 4. Opérations', 'https://www.youtube.com/watch?v=RxkarRkq10o', 'actif');
--- INSERT INTO cours_episodes_id VALUES ('4346f850-647c-11eb-ae93-0242ac130002', '2d6a5326-648e-11eb-ae93-0242ac130002');
+INSERT INTO episode (id, cours_id, concept, href, statut) 
+VALUES ('2d6a5326-648e-11eb-ae93-0242ac130002', '4346f850-647c-11eb-ae93-0242ac130002', 'Diagrammes de classes - 4. Opérations', 'https://www.youtube.com/watch?v=RxkarRkq10o', 'actif');
 
-INSERT INTO episode (id, concept, href, statut) 
-VALUES ('171a8894-648d-11eb-ae93-0242ac130002', 'UML - Diagrammes de séquence (conception)', 'https://www.youtube.com/watch?v=fPm5NrvmXHc', 'actif');
--- INSERT INTO cours_episodes_id VALUES ('4346f850-647c-11eb-ae93-0242ac130002', '171a8894-648d-11eb-ae93-0242ac130002');
+INSERT INTO episode (id, cours_id, concept, href, statut) 
+VALUES ('171a8894-648d-11eb-ae93-0242ac130002', '4346f850-647c-11eb-ae93-0242ac130002', 'UML - Diagrammes de séquence (conception)', 'https://www.youtube.com/watch?v=fPm5NrvmXHc', 'actif');
 
 -- Java-JEE --
-INSERT INTO episode (id, concept, href, statut) 
-VALUES ('90c72502-648e-11eb-ae93-0242ac130002', 'Java vs Java EE: What`s The Differences?', 'https://www.youtube.com/watch?v=jmLfIZw2WWY', 'actif');
--- INSERT INTO cours_episodes_id VALUES ('4a9a0cfa-647c-11eb-ae93-0242ac130002', '90c72502-648e-11eb-ae93-0242ac130002');
+INSERT INTO episode (id, cours_id, concept, href, statut) 
+VALUES ('90c72502-648e-11eb-ae93-0242ac130002', '4a9a0cfa-647c-11eb-ae93-0242ac130002', 'Java vs Java EE: What`s The Differences?', 'https://www.youtube.com/watch?v=jmLfIZw2WWY', 'actif');
 
 -- Java-Spring --
-INSERT INTO episode (id, concept, href, statut) 
-VALUES ('5acbf4be-64ac-11eb-ae93-0242ac130002', 'Débuter avec Spring INTRO', 'https://www.youtube.com/watch?v=UUUtQr-KXOY', 'actif');
--- INSERT INTO cours_episodes_id VALUES ('4fc174ca-647c-11eb-ae93-0242ac130002', '5acbf4be-64ac-11eb-ae93-0242ac130002');
+INSERT INTO episode (id, cours_id, concept, href, statut) 
+VALUES ('5acbf4be-64ac-11eb-ae93-0242ac130002', '4fc174ca-647c-11eb-ae93-0242ac130002', 'Débuter avec Spring INTRO', 'https://www.youtube.com/watch?v=UUUtQr-KXOY', 'actif');
 
-INSERT INTO episode (id, concept, href, statut) 
-VALUES ('24d20960-64b7-11eb-ae93-0242ac130002', 'Spring rest', 'https://www.youtube.com/watch?v=VwD4CsJAYNo', 'actif');
--- INSERT INTO cours_episodes_id VALUES ('4fc174ca-647c-11eb-ae93-0242ac130002', '24d20960-64b7-11eb-ae93-0242ac130002');
+INSERT INTO episode (id, cours_id, concept, href, statut) 
+VALUES ('24d20960-64b7-11eb-ae93-0242ac130002', '4fc174ca-647c-11eb-ae93-0242ac130002', 'Spring rest', 'https://www.youtube.com/watch?v=VwD4CsJAYNo', 'actif');
