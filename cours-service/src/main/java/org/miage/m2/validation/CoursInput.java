@@ -23,10 +23,10 @@ public class CoursInput {
     @NotNull
     private String description;
     @NotNull
-    @ValidateEnumString(enumClass=CoursStatuts.class, message = "Ce statut n'existe pas.") 
+    @ValidateEnumString(enumClass=CoursStatuts.class, message = "Ce statut n'existe pas (existants : ACTIF, SUPPRIME, etc.) .") 
     private String statut;
     @NotNull
-//    @ValidateEnumString(enumClass=CoursAcces.class) 
+    @ValidateEnumString(enumClass=CoursAcces.class, message = "Ce type d'accès n'existe pas (existants : GRATUIT, PAYANT, etc.) .") 
     private String acces;
     @NotNull
     private Long prix;

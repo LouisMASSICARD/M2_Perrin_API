@@ -77,54 +77,8 @@ public class CoursRepresentation {
 			LOG.info("[Cours] COURS_STATUT_ACTIF : " + statut);
 			all = coursRessource.findByStatut(statut);
 		}
-//        switch (statut) {
-//		case Cours.COURS_STATUT_ACTIF:
-//			LOG.info("[Cours] COURS_STATUT_ACTIF : " + statut);
-//			all = coursRessource.findByStatut(Cours.COURS_STATUT_ACTIF);
-//			break;
-//			
-//		case Cours.COURS_STATUT_SUPPRIME:
-//			LOG.info("[Cours] COURS_STATUT_SUPPRIME : " + statut);
-//			all = coursRessource.findByStatut(Cours.COURS_STATUT_SUPPRIME);
-//			break;
-//
-//		default:
-//			LOG.info("[Cours] all by default : " + statut);
-//			all = coursRessource.findAll();
-//			break;
-//		}
         return ResponseEntity.ok(coursToResource(all));
     }
-    
-//    // GET all BY acces
-//    @GetMapping
-//    public ResponseEntity<?> getAllCoursByAcces(@RequestParam(value = "acces", required = false,  defaultValue = "") String acces) {
-//        LOG.info("[Cours] GET ALL");
-//        Iterable<Cours> all;
-//        if (acces.isBlank()) {
-//        	all = coursRessource.findAll();
-//		} else {
-//			all = coursRessource.findByAcces(acces);
-//		}
-//        
-////        switch (acces) {
-////		case Cours.COURS_ACCES_GRATUIT:
-////			LOG.info("[Cours] COURS_ACCES_GRATUIT : " + acces);
-////			all = coursRessource.findByAcces(Cours.COURS_ACCES_GRATUIT);
-////			break;
-////			
-////		case Cours.COURS_ACCES_PAYANT:
-////			LOG.info("[Cours] COURS_ACCES_PAYANT : " + acces);
-////			all = coursRessource.findByAcces(Cours.COURS_ACCES_PAYANT);
-////			break;
-////
-////		default:
-////			LOG.info("[Cours] all by default : " + acces);
-////			all = coursRessource.findAll();
-////			break;
-////		}
-//        return ResponseEntity.ok(coursToResource(all));
-//    }
 
     // GET one
     @GetMapping(value="/{coursID}")

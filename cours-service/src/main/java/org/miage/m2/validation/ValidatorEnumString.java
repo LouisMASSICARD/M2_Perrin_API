@@ -8,30 +8,24 @@ public class ValidatorEnumString implements ConstraintValidator<ValidateEnumStri
 	private ValidateEnumString annotation;
 	 
     @Override
-    public void initialize(ValidateEnumString annotation)
-    {
+    public void initialize(ValidateEnumString annotation) {
         this.annotation = annotation;
     }
  
     @Override
-    public boolean isValid(String valueForValidation, ConstraintValidatorContext constraintValidatorContext)
-    {
+    public boolean isValid(String valueForValidation, ConstraintValidatorContext constraintValidatorContext) {
         boolean result = false;
          
         Object[] enumValues = this.annotation.enumClass().getEnumConstants();
          
-        if(enumValues != null)
-        {
-            for(Object enumValue:enumValues)
-            {
-                if(valueForValidation.equals(enumValue.toString()))
-                {
+        if(enumValues != null) {
+            for(Object enumValue:enumValues) {
+                if(valueForValidation.equals(enumValue.toString())) {
                     result = true; 
                     break;
                 }
             }
         }
-         
         return result;
     }
 } 
