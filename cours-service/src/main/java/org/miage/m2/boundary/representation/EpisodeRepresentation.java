@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -32,6 +33,7 @@ import org.miage.m2.entity.Episode;
 import org.miage.m2.validation.EpisodeInput;
 import org.miage.m2.validation.EpisodeValidator;
 import org.miage.m2.boundary.resource.EpisodeResource;
+import org.miage.m2.constants.EpisodeStatuts;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
@@ -55,9 +57,18 @@ public class EpisodeRepresentation {
 
     // GET all
     @GetMapping
-    public ResponseEntity<?> getAllEpisodes() {
+    public ResponseEntity<?> getAllEpisodes(@RequestParam(value = "statut", required = false,  defaultValue = "") String statut) {
         LOG.info("[Episodes] GET ALL");
-        Iterable<Episode> all = episodeRessource.findAll();
+        Iterable<Episode> all;
+        if (statut.isBlank()) {
+        	all = episodeRessource.findAll();			
+		} else {
+			if (! validator.validateSatut(statut) ) {
+				return ResponseEntity.notFound().build();
+			}
+			LOG.info("[Cours] Statut : " + statut);
+			all = episodeRessource.findByStatut(statut);
+		}
         return ResponseEntity.ok(episodeToResource(all));
     }
 
@@ -95,7 +106,7 @@ public class EpisodeRepresentation {
 //            episodeRessource.delete(episode.get());
         	Episode user = episode.get();
         	System.out.println(user);
-        	user.setStatut(Episode.EPISODE_STATUT_SUPPRIME);
+        	user.setStatut(EpisodeStatuts.ACTIF.toString());
         	System.out.println(user);
             Episode result = episodeRessource.save(user);
             System.out.println(result);
@@ -169,7 +180,7 @@ public class EpisodeRepresentation {
     // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
     private CollectionModel<EntityModel<Episode>> episodeToResource(Iterable<Episode> episodes) {
-        Link selfLink = linkTo(methodOn(EpisodeRepresentation.class).getAllEpisodes()).withSelfRel();
+        Link selfLink = linkTo(methodOn(EpisodeRepresentation.class).getAllEpisodes(null)).withSelfRel();
         List<EntityModel<Episode>> episodeResources = new ArrayList<EntityModel<Episode>>();
         episodes.forEach(episode -> episodeResources.add(episodeToResource(episode, false)));
         return  CollectionModel.of(episodeResources, selfLink);
@@ -178,7 +189,7 @@ public class EpisodeRepresentation {
     private EntityModel<Episode> episodeToResource(Episode episode, Boolean collection) {
         var selfLink = linkTo(EpisodeRepresentation.class).slash(episode.getId()).withSelfRel();
         if (Boolean.TRUE.equals(collection)) {
-            Link collectionLink = linkTo(methodOn(EpisodeRepresentation.class).getAllEpisodes())
+            Link collectionLink = linkTo(methodOn(EpisodeRepresentation.class).getAllEpisodes(null))
                     .withRel("collection");
             return EntityModel.of(episode, selfLink, collectionLink);
         } else {

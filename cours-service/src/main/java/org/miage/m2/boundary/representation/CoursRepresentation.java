@@ -32,7 +32,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import org.miage.m2.entity.Cours;
 import org.miage.m2.validation.CoursInput;
 import org.miage.m2.validation.CoursValidator;
-import org.apache.commons.lang3.EnumUtils;
 import org.miage.m2.boundary.client.EpisodeClient;
 import org.miage.m2.boundary.resource.CoursResource;
 import org.miage.m2.constants.CoursStatuts;
@@ -63,19 +62,36 @@ public class CoursRepresentation {
     
     // GET all BY statut
     @GetMapping
-    public ResponseEntity<?> getAllCours(@RequestParam(value = "statut", required = false,  defaultValue = "") String statut) {
-//    public ResponseEntity<?> getAllCoursByStatut(@RequestParam(value = "statut", required = false,  defaultValue = "") String statut) {
+    public ResponseEntity<?> getAllCours(
+    		@RequestParam(value = "statut", required = false,  defaultValue = "") String statut,
+    		@RequestParam(value = "acces", required = false,  defaultValue = "") String acces) {
         LOG.info("[Cours] GET ALL");
 				
         Iterable<Cours> all;
-        if (statut.isBlank()) {
+        if (statut.isBlank() && acces.isBlank()) {
         	all = coursRessource.findAll();
-		} else {
-			if (! EnumUtils.isValidEnum(CoursStatuts.class, statut)) {
+		} else if (acces.isBlank()) {
+			if (! validator.validateSatut(statut) ) {
 				return ResponseEntity.notFound().build();
 			}
-			LOG.info("[Cours] COURS_STATUT_ACTIF : " + statut);
+			LOG.info("[Cours] Statut : " + statut);
 			all = coursRessource.findByStatut(statut);
+		} else if (statut.isBlank()) {
+			if (! validator.validateAcces(acces) ) {
+				return ResponseEntity.notFound().build();
+			}
+			LOG.info("[Cours] Accès : " + acces);
+			all = coursRessource.findByStatut(statut);
+		} else {
+			if (! validator.validateSatut(statut) ) {
+				return ResponseEntity.notFound().build();
+			}
+			LOG.info("[Cours] Statut : " + statut);
+			if (! validator.validateAcces(acces) ) {
+				return ResponseEntity.notFound().build();
+			}
+			LOG.info("[Cours] Accès : " + acces);
+			all = coursRessource.findByStatutAndAcces(statut, acces);
 		}
         return ResponseEntity.ok(coursToResource(all));
     }
@@ -191,7 +207,7 @@ public class CoursRepresentation {
     // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
     private CollectionModel<EntityModel<Cours>> coursToResource(Iterable<Cours> cours) {
-        Link selfLink = linkTo(methodOn(CoursRepresentation.class).getAllCours(null)).withSelfRel();
+        Link selfLink = linkTo(methodOn(CoursRepresentation.class).getAllCours(null, null)).withSelfRel();
         List<EntityModel<Cours>> coursResources = new ArrayList<EntityModel<Cours>>();
         cours.forEach(cour -> coursResources.add(coursToResource(cour, false)));
         return  CollectionModel.of(coursResources, selfLink);
@@ -200,7 +216,7 @@ public class CoursRepresentation {
     private EntityModel<Cours> coursToResource(Cours cours, Boolean collection) {
         var selfLink = linkTo(CoursRepresentation.class).slash(cours.getId()).withSelfRel();
         if (Boolean.TRUE.equals(collection)) {
-            Link collectionLink = linkTo(methodOn(CoursRepresentation.class).getAllCours(null)).withRel("collection");
+            Link collectionLink = linkTo(methodOn(CoursRepresentation.class).getAllCours(null, null)).withRel("collection");
             return EntityModel.of(cours, selfLink, collectionLink);
         } else {
             return EntityModel.of(cours, selfLink);

@@ -12,8 +12,6 @@ import javax.persistence.JoinColumn;
 import org.miage.m2.constants.CoursAcces;
 import org.miage.m2.constants.CoursStatuts;
 
-// import javax.persistence.OneToMany;
-// import javax.persistence.ManyToOne;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 

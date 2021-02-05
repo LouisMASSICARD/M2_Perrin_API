@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import org.miage.m2.constants.EpisodeStatuts;
+
 @Entity
 public class Episode implements Serializable {
 
@@ -16,11 +18,6 @@ public class Episode implements Serializable {
 		• concept => concept (du cours) qui est présenté
 		• href
 	*/
-
-	
-    public final static String EPISODE_STATUT_ACTIF = "actif";
-    public final static String EPISODE_STATUT_SUPPRIME = "supprime";
-
 	@Id
 	private String id;
 	private String concept;
@@ -41,7 +38,7 @@ public class Episode implements Serializable {
 	public Episode(String concept, String href) {
 		this.concept = concept;
 		this.href = href;
-		this.statut = EPISODE_STATUT_ACTIF;
+		this.statut = EpisodeStatuts.ACTIF.toString();
 	}
 
 	public Episode(String id, String concept, String href, String statut) {

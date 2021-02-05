@@ -3,6 +3,8 @@ package org.miage.m2.validation;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.miage.m2.constants.EpisodeStatuts;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,6 +18,7 @@ public class EpisodeInput {
     @NotBlank
 	private String href;
     @NotNull
+    @ValidateEnumString(enumClass=EpisodeStatuts.class, message = "Ce statut n'existe pas (existants : ACTIF, SUPPRIME, etc.) .") 
     private String statut;
     
     public EpisodeInput(String concept, String href, String statut) {

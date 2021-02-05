@@ -6,6 +6,8 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 
+import org.apache.commons.lang3.EnumUtils;
+import org.miage.m2.constants.EpisodeStatuts;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,4 +25,8 @@ public class EpisodeValidator {
         throw new ConstraintViolationException(violations);
         }
     }
+    
+    public boolean validateSatut(String statut) {
+        return EnumUtils.isValidEnum(EpisodeStatuts.class, statut);
+     }
 }

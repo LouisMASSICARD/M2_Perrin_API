@@ -52,26 +52,26 @@ INSERT INTO episode (id, cours_id, concept, href, statut)
 VALUES ('d8833806-648c-11eb-ae93-0242ac130002', '4346f850-647c-11eb-ae93-0242ac130002', 'Cas d`utilisation - 1. Diagrammes de cas d`utilisation', 'https://www.youtube.com/watch?v=GC5BdRve38A', 'ACTIF');
 
 INSERT INTO episode (id, cours_id, concept, href, statut) 
-VALUES ('dfaa0858-648c-11eb-ae93-0242ac130002', '4346f850-647c-11eb-ae93-0242ac130002', 'Cas d`utilisation - 2. Scénarios détaillés et diagrammes de séquence', 'https://www.youtube.com/watch?v=1G0omjzh1OQ', 'ACTIF');
+VALUES ('dfaa0858-648c-11eb-ae93-0242ac130002', '4346f850-647c-11eb-ae93-0242ac130002', 'Cas d`utilisation - 2. Scénarios détaillés et diagrammes de séquence', 'https://www.youtube.com/watch?v=1G0omjzh1OQ', 'SUPPRIME');
 
 INSERT INTO episode (id, cours_id, concept, href, statut) 
 VALUES ('ac6226f0-648d-11eb-ae93-0242ac130002', '4346f850-647c-11eb-ae93-0242ac130002', 'Diagrammes de classes - 1. Classes et associations', 'https://www.youtube.com/watch?v=8VMMu-vcF60', 'ACTIF');
 
 INSERT INTO episode (id, cours_id, concept, href, statut) 
-VALUES ('19f832b8-648e-11eb-ae93-0242ac130002', '4346f850-647c-11eb-ae93-0242ac130002', 'Diagrammes de classes - 2. Associations particulières, héritage', 'https://www.youtube.com/watch?v=nRqTXoiNUHk', 'ACTIF');
+VALUES ('19f832b8-648e-11eb-ae93-0242ac130002', '4346f850-647c-11eb-ae93-0242ac130002', 'Diagrammes de classes - 2. Associations particulières, héritage', 'https://www.youtube.com/watch?v=nRqTXoiNUHk', 'SUPPRIME');
 
 INSERT INTO episode (id, cours_id, concept, href, statut) 
-VALUES ('24b04650-648e-11eb-ae93-0242ac130002', '4346f850-647c-11eb-ae93-0242ac130002', 'Diagrammes de classes - 3. Contraintes', 'https://www.youtube.com/watch?v=a3DWVNWg2Oo', 'ACTIF');
+VALUES ('24b04650-648e-11eb-ae93-0242ac130002', '4346f850-647c-11eb-ae93-0242ac130002', 'Diagrammes de classes - 3. Contraintes', 'https://www.youtube.com/watch?v=a3DWVNWg2Oo', 'SUPPRIME');
 
 INSERT INTO episode (id, cours_id, concept, href, statut) 
-VALUES ('2d6a5326-648e-11eb-ae93-0242ac130002', '4346f850-647c-11eb-ae93-0242ac130002', 'Diagrammes de classes - 4. Opérations', 'https://www.youtube.com/watch?v=RxkarRkq10o', 'ACTIF');
+VALUES ('2d6a5326-648e-11eb-ae93-0242ac130002', '4346f850-647c-11eb-ae93-0242ac130002', 'Diagrammes de classes - 4. Opérations', 'https://www.youtube.com/watch?v=RxkarRkq10o', 'SUPPRIME');
 
 INSERT INTO episode (id, cours_id, concept, href, statut) 
 VALUES ('171a8894-648d-11eb-ae93-0242ac130002', '4346f850-647c-11eb-ae93-0242ac130002', 'UML - Diagrammes de séquence (conception)', 'https://www.youtube.com/watch?v=fPm5NrvmXHc', 'ACTIF');
 
 -- Java-JEE --
 INSERT INTO episode (id, cours_id, concept, href, statut) 
-VALUES ('90c72502-648e-11eb-ae93-0242ac130002', '4a9a0cfa-647c-11eb-ae93-0242ac130002', 'Java vs Java EE: What`s The Differences?', 'https://www.youtube.com/watch?v=jmLfIZw2WWY', 'ACTIF');
+VALUES ('90c72502-648e-11eb-ae93-0242ac130002', '4a9a0cfa-647c-11eb-ae93-0242ac130002', 'Java vs Java EE: What`s The Differences?', 'https://www.youtube.com/watch?v=jmLfIZw2WWY', 'SUPPRIME');
 
 -- Java-Spring --
 INSERT INTO episode (id, cours_id, concept, href, statut) 
