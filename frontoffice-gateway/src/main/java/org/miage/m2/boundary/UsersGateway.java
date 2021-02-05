@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.miage.m2.boundary.representation.CoursRepresentation;
+//import org.miage.m2.boundary.representation.CoursRepresentation;
 import org.miage.m2.dto.CoursNamesDTO;
 import org.miage.m2.dto.UtilisateurInscription;
 import org.miage.m2.entity.Cours;
@@ -60,8 +60,8 @@ public class UsersGateway {
     		  Utilisateur.UTILISATEUR_STATUT_ACTIF,
     		  Collections.emptySet()));
        LOG.info("[UsersGateway] INSCRIPTION : " + rep);
-//       return rep;
-       return ResponseEntity.ok(rep.getBody(), );
+       return rep;
+//       return ResponseEntity.of(rep.getBody(), linkToConnexion());
     }
     
     // CONNEXION    
@@ -79,13 +79,21 @@ public class UsersGateway {
        return rep;
     }
 
-    @GetMapping
+    @RequestMapping(method = RequestMethod.GET, value = "/cours")
     public CollectionModel<EntityModel<Cours>> cours() {
         Collection<Cours> content = this.coursReader.getAllCours().getContent();
         List<EntityModel<Cours>> listeCours = new ArrayList<>();
         content.forEach(c -> listeCours.add(EntityModel.of(c)));
         return CollectionModel.of(listeCours);
     }
+    
+//    @GetMapping
+//    public CollectionModel<EntityModel<Cours>> cours() {
+//        Collection<Cours> content = this.coursReader.getAllCours().getContent();
+//        List<EntityModel<Cours>> listeCours = new ArrayList<>();
+//        content.forEach(c -> listeCours.add(EntityModel.of(c)));
+//        return CollectionModel.of(listeCours);
+//    }
 
     @HystrixCommand(fallbackMethod = "fallback")
     @RequestMapping(method = RequestMethod.GET, value = "/noms")

@@ -1,6 +1,0 @@
-#FileLock
-#Fri Feb 05 21:50:09 CET 2021
-server=127.0.1.1\:33481
-hostName=Mac-TUF
-method=file
-id=17773f58ff26688060fa444494ecaa8fff7148acb28
