@@ -24,7 +24,8 @@ public class EpisodeInput {
     @ValidateEnumString(enumClass=EpisodeStatuts.class, message = "Ce statut n'existe pas (existants : ACTIF, SUPPRIME, etc.) .") 
     private String statut;
     
-    public EpisodeInput(String concept, String href, String statut) {
+    public EpisodeInput(String cours_id, String concept, String href, String statut) {
+    	this.cours_id = cours_id;
         this.concept = concept;
         this.href = href;
         this.statut = statut;

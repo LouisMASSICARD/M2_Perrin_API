@@ -84,7 +84,7 @@ public class EpisodeRepresentation {
     // POST
     @PostMapping
     @Transactional
-    public ResponseEntity<?> save(@RequestBody @Valid EpisodeInput episode) {
+    public ResponseEntity<?> saveEpisode(@RequestBody @Valid EpisodeInput episode) {
         LOG.info("[Episodes] POST : " + episode.toString());
         Episode user = new Episode(
                 UUID.randomUUID().toString(),
@@ -148,14 +148,13 @@ public class EpisodeRepresentation {
         }
         episode.setId(episodeID);
         Episode result = episodeRessource.save(episode);
-//        return ResponseEntity.ok().build();
         return ResponseEntity.ok(episodeToResource(result, true));
     }
 
     // PATCH
-    @PatchMapping(value = "/{intervenantID}")
+    @PatchMapping(value = "/{episodeID}")
     @Transactional
-    public ResponseEntity<?> updateEpisodePartiel(@PathVariable("intervenantID") String episodeID, @RequestBody Map<Object, Object> fields) {
+    public ResponseEntity<?> updateEpisodePartiel(@PathVariable("episodeID") String episodeID, @RequestBody Map<Object, Object> fields) {
         LOG.info("[Episodes] PATCH (episodeID - episode) : " + episodeID + " - " + fields);
         Optional<Episode> body = episodeRessource.findById(episodeID);
         if (body.isPresent()) {
@@ -166,12 +165,11 @@ public class EpisodeRepresentation {
                 ReflectionUtils.setField(field, episode, v);
             });
             validator.validate(new EpisodeInput(
+            		episode.getCours_id(),
             		episode.getConcept(),
         			episode.getHref(),
                     episode.getStatut()));
             episode.setId(episodeID);
-//            episodeRessource.save(episode);
-//            return ResponseEntity.ok().build();
             Episode result = episodeRessource.save(episode);
             return ResponseEntity.ok(episodeToResource(result, true));
         }

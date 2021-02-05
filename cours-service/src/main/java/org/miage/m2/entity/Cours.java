@@ -67,7 +67,7 @@ public class Cours implements Serializable {
         this.nom = nom;
         this.description = description;
         this.statut = CoursStatuts.ACTIF.toString();
-        this.acces = CoursAcces.GARTUIT.toString();
+        this.acces = CoursAcces.GRATUIT.toString();
         this.prix = 0L;
     }
 

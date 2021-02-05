@@ -6,10 +6,10 @@ package org.miage.m2.constants;
  */
 public enum CoursAcces {
 	PAYANT,
-	GARTUIT;
+	GRATUIT;
 
 //	PAYANT("payant"),
-//	GARTUIT("gratuit");
+//	GRATUIT("gratuit");
 //	
 //	public final String acces;
 //

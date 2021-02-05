@@ -60,36 +60,46 @@ public class CoursRepresentation {
         this.validator = coursValidator;
     }
     
-    // GET all BY statut
+    // GET all BY statut...
     @GetMapping
     public ResponseEntity<?> getAllCours(
     		@RequestParam(value = "statut", required = false,  defaultValue = "") String statut,
     		@RequestParam(value = "acces", required = false,  defaultValue = "") String acces) {
         LOG.info("[Cours] GET ALL");
+//        LOG.info("[Cours] Statut : " + statut);
+//        LOG.info("[Cours] Acces : " + acces);
 				
         Iterable<Cours> all;
-        if (statut.isBlank() && acces.isBlank()) {
+        if (statut.isBlank() && acces.isBlank()) {	// GET all
         	all = coursRessource.findAll();
-		} else if (acces.isBlank()) {
+        	
+		} else if (acces.isBlank()) {				// GET all BY statut
 			if (! validator.validateSatut(statut) ) {
+				LOG.warning("Le statut suivant n'existe pas : " + statut);
 				return ResponseEntity.notFound().build();
 			}
 			LOG.info("[Cours] Statut : " + statut);
 			all = coursRessource.findByStatut(statut);
-		} else if (statut.isBlank()) {
+			
+		} else if (statut.isBlank()) {				// GET all BY acces
 			if (! validator.validateAcces(acces) ) {
+				LOG.warning("Le type d'accès suivant n'existe pas : " + acces);
 				return ResponseEntity.notFound().build();
 			}
 			LOG.info("[Cours] Accès : " + acces);
-			all = coursRessource.findByStatut(statut);
-		} else {
+			all = coursRessource.findByAcces(acces);
+			
+		} else {									// GET all BY statut & acces
 			if (! validator.validateSatut(statut) ) {
+				LOG.warning("Le statut suivant n'existe pas : " + statut);
 				return ResponseEntity.notFound().build();
 			}
 			LOG.info("[Cours] Statut : " + statut);
 			if (! validator.validateAcces(acces) ) {
+				LOG.warning("Le type d'accès suivant n'existe pas : " + acces);
 				return ResponseEntity.notFound().build();
 			}
+			LOG.info("[Cours] Statut : " + statut);
 			LOG.info("[Cours] Accès : " + acces);
 			all = coursRessource.findByStatutAndAcces(statut, acces);
 		}
@@ -108,7 +118,7 @@ public class CoursRepresentation {
     // POST
     @PostMapping
     @Transactional
-    public ResponseEntity<?> save(@RequestBody @Valid CoursInput cours) {
+    public ResponseEntity<?> saveCours(@RequestBody @Valid CoursInput cours) {
         LOG.info("[Cours] POST : " + cours.toString());
         Cours user = new Cours(
                 UUID.randomUUID().toString(),
