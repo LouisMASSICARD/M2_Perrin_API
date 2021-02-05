@@ -63,9 +63,6 @@ public class CoursRepresentation {
     public ResponseEntity<?> getAllCours() {
         LOG.info("[Cours] GET ALL");
         Iterable<Cours> all = coursRessource.findAll();
-        // for (Cours cours : all) {
-        //     LOG.warning("[Cours] : " + cours.toString());
-        // }
         return ResponseEntity.ok(coursToResource(all));
     }
 
@@ -147,7 +144,6 @@ public class CoursRepresentation {
         }
         cours.setId(coursID);
         Cours result = coursRessource.save(cours);
-        //        return ResponseEntity.ok().build();
         return ResponseEntity.ok(coursToResource(result, true));
     }
     
@@ -172,8 +168,6 @@ public class CoursRepresentation {
     			cours.getPrix(),
                 cours.getEpisodesID()));
             cours.setId(coursID);
-//            coursRessource.save(cours);
-//            return ResponseEntity.ok().build();
             Cours result = coursRessource.save(cours);
             return ResponseEntity.ok(coursToResource(result, true));
         }
@@ -184,7 +178,6 @@ public class CoursRepresentation {
     
     private CollectionModel<EntityModel<Cours>> coursToResource(Iterable<Cours> cours) {
         Link selfLink = linkTo(methodOn(CoursRepresentation.class).getAllCours()).withSelfRel();
-        // LOG.severe("Collection selfLink : " + selfLink);
         List<EntityModel<Cours>> coursResources = new ArrayList<EntityModel<Cours>>();
         cours.forEach(cour -> coursResources.add(coursToResource(cour, false)));
         return  CollectionModel.of(coursResources, selfLink);
@@ -192,12 +185,10 @@ public class CoursRepresentation {
     
     private EntityModel<Cours> coursToResource(Cours cours, Boolean collection) {
         var selfLink = linkTo(CoursRepresentation.class).slash(cours.getId()).withSelfRel();
-        // LOG.warning("Cours selfLink : " + selfLink);
         if (Boolean.TRUE.equals(collection)) {
             Link collectionLink = linkTo(methodOn(CoursRepresentation.class).getAllCours()).withRel("collection");
             return EntityModel.of(cours, selfLink, collectionLink);
         } else {
-            // LOG.info("Cours : " + EntityModel.of(cours, selfLink));
             return EntityModel.of(cours, selfLink);
         }
     }
