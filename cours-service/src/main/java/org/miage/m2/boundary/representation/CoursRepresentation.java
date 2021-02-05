@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -30,8 +29,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import org.miage.m2.entity.Cours;
-import org.miage.m2.entity.Detail;
-import org.miage.m2.entity.Episode;
 import org.miage.m2.validation.CoursInput;
 import org.miage.m2.validation.CoursValidator;
 import org.miage.m2.boundary.client.EpisodeClient;
@@ -59,24 +56,6 @@ public class CoursRepresentation {
     public CoursRepresentation(CoursResource coursResource, CoursValidator coursValidator) {
         this.coursRessource = coursResource;
         this.validator = coursValidator;
-    }
-
-    // GET all cours & episodes
-    @GetMapping(value="/episodes")
-    public ResponseEntity<?> getAllCoursDetailed() {
-        LOG.info("[Cours] GET ALL");
-        Iterable<Cours> all = coursRessource.findAll();
-        List<Detail> allDetailed = new ArrayList<Detail>();
-        for (Cours cours : all) {
-            // LOG.warning("[Cours] : " + cours.toString());
-            List<Episode> episodes = cours
-                .getEpisodesID()
-                .stream()
-                .map(client::get)
-                .collect(Collectors.toList());
-            allDetailed.add(new Detail(cours, episodes));
-        }
-        return ResponseEntity.ok(detailToResource((Iterable<Detail>) allDetailed));
     }
 
     // GET all
@@ -220,28 +199,6 @@ public class CoursRepresentation {
         } else {
             // LOG.info("Cours : " + EntityModel.of(cours, selfLink));
             return EntityModel.of(cours, selfLink);
-        }
-    }
-
-    // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    private CollectionModel<EntityModel<Detail>> detailToResource(Iterable<Detail> details) {
-        Link selfLink = linkTo(methodOn(CoursRepresentation.class).getAllCours()).withSelfRel();
-        // LOG.severe("Collection selfLink : " + selfLink);
-        List<EntityModel<Detail>> coursResources = new ArrayList<EntityModel<Detail>>();
-        details.forEach(detail -> coursResources.add(detailToResource(detail, false)));
-        return  CollectionModel.of(coursResources, selfLink);
-    }
-    
-    private EntityModel<Detail> detailToResource(Detail detail, Boolean collection) {
-        var selfLink = linkTo(CoursRepresentation.class).slash(detail.getId()).withSelfRel();
-        // LOG.warning("Detail selfLink : " + selfLink);
-        if (Boolean.TRUE.equals(collection)) {
-            Link collectionLink = linkTo(methodOn(CoursRepresentation.class).getAllCours()).withRel("collection");
-            return EntityModel.of(detail, selfLink, collectionLink);
-        } else {
-            // LOG.info("Detail : " + EntityModel.of(detail, selfLink));
-            return EntityModel.of(detail, selfLink);
         }
     }
 }
