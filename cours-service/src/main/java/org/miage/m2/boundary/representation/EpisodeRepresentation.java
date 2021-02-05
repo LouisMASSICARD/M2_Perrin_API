@@ -104,31 +104,13 @@ public class EpisodeRepresentation {
         LOG.info("[Episodes] DELETE (episodeID) : " + episodeID);
         Optional<Episode> episode = episodeRessource.findById(episodeID);
         if (episode.isPresent()) {
-//            episodeRessource.delete(episode.get());
         	Episode user = episode.get();
-        	System.out.println(user);
         	user.setStatut(EpisodeStatuts.SUPPRIME.toString());
-        	System.out.println(user);
             Episode result = episodeRessource.save(user);
-            System.out.println(result);
-//            return ResponseEntity.ok(episodeToResource(result, true));
-            
-//            return ResponseEntity.noContent().build();
-//            return ResponseEntity.status(201).build().of(episodeToResource(result, true));
-            
-//            System.out.println(ResponseEntity.status(HttpStatus.NO_CONTENT));
-//            System.out.println(ResponseEntity.status(HttpStatus.NO_CONTENT).body(episodeToResource(result, true)));
             
             BodyBuilder body = ResponseEntity.status(204);
             ResponseEntity<?> response = body.body(episodeToResource(result, true));
-            
-            System.out.println(body);
-            System.out.println(response);
-            
             return response;
-            
-//            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(episodeToResource(result, true));
-
         } else {
         	return ResponseEntity.notFound().build();
         }

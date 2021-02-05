@@ -9,16 +9,16 @@ import javax.validation.Validator;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UtilisateurValidator {
+public class AbonnementValidator {
 
   private Validator validator;
 
-  UtilisateurValidator(Validator validator) {
+  AbonnementValidator(Validator validator) {
     this.validator = validator;
   }
 
-  public void validate(UtilisateurInput utilisateur) {
-    Set<ConstraintViolation<UtilisateurInput>> violations = validator.validate(utilisateur);
+  public void validate(AbonnementInput abonnement) {
+    Set<ConstraintViolation<AbonnementInput>> violations = validator.validate(abonnement);
     if (!violations.isEmpty()) {
       throw new ConstraintViolationException(violations);
     }

@@ -1,4 +1,4 @@
-package org.miage.m2.boundary;
+package org.miage.m2.boundary.representation;
 
 import java.lang.reflect.Field;
 import java.net.URI;
@@ -10,9 +10,10 @@ import java.util.UUID;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import org.miage.m2.boundary.resource.UtilisateurResource;
 import org.miage.m2.entity.Utilisateur;
-import org.miage.m2.entity.UtilisateurInput;
-import org.miage.m2.entity.UtilisateurValidator;
+import org.miage.m2.validation.UtilisateurInput;
+import org.miage.m2.validation.UtilisateurValidator;
 import org.springframework.hateoas.server.ExposesResourceFor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -132,9 +133,9 @@ public class UtilisateurRepresentation {
     }
 
     // PATCH
-    @PatchMapping(value = "/{intervenantID}")
+    @PatchMapping(value = "/{utilisateurID}")
     @Transactional
-    public ResponseEntity<?> updateUtilisateurPartiel(@PathVariable("intervenantID") String utilisateurID, @RequestBody Map<Object, Object> fields) {
+    public ResponseEntity<?> updateUtilisateurPartiel(@PathVariable("utilisateurID") String utilisateurID, @RequestBody Map<Object, Object> fields) {
         Optional<Utilisateur> body = utilisateurRessource.findById(utilisateurID);
         if (body.isPresent()) {
         	Utilisateur utilisateur = body.get();
@@ -160,9 +161,9 @@ public class UtilisateurRepresentation {
     
     private CollectionModel<EntityModel<Utilisateur>> utilisateurToResource(Iterable<Utilisateur> utilisateurs) {
         Link selfLink = linkTo(methodOn(UtilisateurRepresentation.class).getAllUtilisateurs()).withSelfRel();
-        List<EntityModel<Utilisateur>> intervenantResources = new ArrayList<EntityModel<Utilisateur>>();
-        utilisateurs.forEach(intervenant -> intervenantResources.add(utilisateurToResource(intervenant, false)));
-        return  CollectionModel.of(intervenantResources, selfLink);
+        List<EntityModel<Utilisateur>> utilisateurResources = new ArrayList<EntityModel<Utilisateur>>();
+        utilisateurs.forEach(utilisateur -> utilisateurResources.add(utilisateurToResource(utilisateur, false)));
+        return  CollectionModel.of(utilisateurResources, selfLink);
     }
 
     private EntityModel<Utilisateur> utilisateurToResource(Utilisateur utilisateur, Boolean collection) {
@@ -175,16 +176,4 @@ public class UtilisateurRepresentation {
             return EntityModel.of(utilisateur, selfLink);
         }
     }
-    
-//    private EntityModel<Object> utilisateurToObject(Utilisateur utilisateur, Boolean collection) {
-//        var selfLink = linkTo(UtilisateurRepresentation.class).slash(utilisateur.getId()).withSelfRel();
-//        if (Boolean.TRUE.equals(collection)) {
-//            Link collectionLink = linkTo(methodOn(UtilisateurRepresentation.class).getAllUtilisateurs())
-//                    .withRel("collection");
-//            return EntityModel.of(utilisateur, selfLink, collectionLink);
-//        } else {
-//            return EntityModel.of(utilisateur, selfLink);
-//        }
-//    }
-
 }

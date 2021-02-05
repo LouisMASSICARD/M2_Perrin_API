@@ -66,8 +66,6 @@ public class CoursRepresentation {
     		@RequestParam(value = "statut", required = false,  defaultValue = "") String statut,
     		@RequestParam(value = "acces", required = false,  defaultValue = "") String acces) {
         LOG.info("[Cours] GET ALL");
-//        LOG.info("[Cours] Statut : " + statut);
-//        LOG.info("[Cours] Acces : " + acces);
 				
         Iterable<Cours> all;
         if (statut.isBlank() && acces.isBlank()) {	// GET all
@@ -140,31 +138,13 @@ public class CoursRepresentation {
         LOG.info("[Cours] DELETE (coursID) : " + coursID);
         Optional<Cours> cours = coursRessource.findById(coursID);
         if (cours.isPresent()) {
-//            coursRessource.delete(cours.get());
         	Cours user = cours.get();
-        	System.out.println(user);
         	user.setStatut(CoursStatuts.SUPPRIME.toString());
-        	System.out.println(user);
             Cours result = coursRessource.save(user);
-            System.out.println(result);
-//            return ResponseEntity.ok(coursToResource(result, true));
-            
-//            return ResponseEntity.noContent().build();
-//            return ResponseEntity.status(201).build().of(coursToResource(result, true));
-            
-//            System.out.println(ResponseEntity.status(HttpStatus.NO_CONTENT));
-//            System.out.println(ResponseEntity.status(HttpStatus.NO_CONTENT).body(coursToResource(result, true)));
             
             BodyBuilder body = ResponseEntity.status(204);
             ResponseEntity<?> response = body.body(coursToResource(result, true));
-            
-            System.out.println(body);
-            System.out.println(response);
-            
             return response;
-            
-//            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(coursToResource(result, true));
-
         } else {
         	return ResponseEntity.notFound().build();
         }
