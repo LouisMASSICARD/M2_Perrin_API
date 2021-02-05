@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
@@ -15,7 +14,7 @@ import org.miage.m2.entity.Utilisateur;
 import org.miage.m2.validation.UtilisateurInput;
 import org.miage.m2.validation.UtilisateurValidator;
 import org.springframework.hateoas.server.ExposesResourceFor;
-import org.springframework.http.HttpStatus;
+//import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.ResponseEntity.BodyBuilder;
@@ -68,12 +67,19 @@ public class UtilisateurRepresentation {
     @PostMapping
     @Transactional
     public ResponseEntity<?> save(@RequestBody @Valid UtilisateurInput utilisateur) {
+//    	Utilisateur user = new Utilisateur(
+//    			UUID.randomUUID().toString(),
+//    			utilisateur.getNom(),
+//    			utilisateur.getPrenom(),
+//    			utilisateur.getMail(),
+//    			Utilisateur.UTILISATEUR_STATUT_ACTIF
+//    			utilisateur.getAbonnementsID());
+    	
     	Utilisateur user = new Utilisateur(
-    			UUID.randomUUID().toString(),
-    			utilisateur.getNom(),
-    			utilisateur.getPrenom(),
-    			utilisateur.getMail(),
-    			Utilisateur.UTILISATEUR_STATUT_ACTIF);
+    			utilisateur.getNom(), 
+    			utilisateur.getPrenom(), 
+    			utilisateur.getMail(), 
+    			utilisateur.getAbonnementsID());
     	Utilisateur saved = utilisateurRessource.save(user);
         URI location = linkTo(UtilisateurRepresentation.class).slash(saved.getId()).toUri();
         return ResponseEntity.created(location).build();
@@ -87,11 +93,11 @@ public class UtilisateurRepresentation {
         if (utilisateur.isPresent()) {
 //            utilisateurRessource.delete(utilisateur.get());
         	Utilisateur user = utilisateur.get();
-        	System.out.println(user);
+//        	System.out.println(user);
         	user.setStatut(Utilisateur.UTILISATEUR_STATUT_SUPPRIME);
-        	System.out.println(user);
+//        	System.out.println(user);
             Utilisateur result = utilisateurRessource.save(user);
-            System.out.println(result);
+//            System.out.println(result);
 //            return ResponseEntity.ok(utilisateurToResource(result, true));
             
 //            return ResponseEntity.noContent().build();
@@ -102,12 +108,7 @@ public class UtilisateurRepresentation {
             
             BodyBuilder body = ResponseEntity.status(204);
             ResponseEntity<?> response = body.body(utilisateurToResource(result, true));
-            
-            System.out.println(body);
-            System.out.println(response);
-            
             return response;
-            
 //            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(utilisateurToResource(result, true));
 
         } else {
@@ -147,7 +148,8 @@ public class UtilisateurRepresentation {
             validator.validate(new UtilisateurInput(
             		utilisateur.getNom(),
             		utilisateur.getPrenom(),
-                    utilisateur.getMail()));
+                    utilisateur.getMail(),
+                    utilisateur.getabonnementsID()));
             utilisateur.setId(utilisateurID);
 //            utilisateurRessource.save(utilisateur);
 //            return ResponseEntity.ok().build();

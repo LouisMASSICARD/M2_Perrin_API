@@ -6,17 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.miage.m2.boundary.resource.AbonnementResource;
 import org.miage.m2.entity.Abonnement;
-import org.miage.m2.entity.Abonnement;
 import org.miage.m2.validation.AbonnementInput;
 import org.miage.m2.validation.AbonnementValidator;
 import org.springframework.hateoas.server.ExposesResourceFor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.ResponseEntity.BodyBuilder;
@@ -147,8 +144,7 @@ public class AbonnementRepresentation {
     private EntityModel<Abonnement> abonnementToResource(Abonnement abonnement, Boolean collection) {
         var selfLink = linkTo(AbonnementRepresentation.class).slash(abonnement.getId()).withSelfRel();
         if (Boolean.TRUE.equals(collection)) {
-            Link collectionLink = linkTo(methodOn(AbonnementRepresentation.class).getAllAbonnements())
-                    .withRel("collection");
+            Link collectionLink = linkTo(methodOn(AbonnementRepresentation.class).getAllAbonnements()).withRel("collection");
             return EntityModel.of(abonnement, selfLink, collectionLink);
         } else {
             return EntityModel.of(abonnement, selfLink);

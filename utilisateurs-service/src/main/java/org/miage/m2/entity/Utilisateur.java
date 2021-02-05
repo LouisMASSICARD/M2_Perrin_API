@@ -2,6 +2,7 @@ package org.miage.m2.entity;
 
 import java.io.Serializable;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -38,12 +39,12 @@ public class Utilisateur implements Serializable {
     private String statut;
     @ElementCollection
     @CollectionTable(
-        name="abonement",
+        name="abonnement",
         joinColumns=@JoinColumn(name="utilisateur_id")
     )
     @Column(name="id")
-    @JsonProperty("abonements-id")
-    private Set<String> abonementsID;
+    @JsonProperty("abonnements-id")
+    private Set<String> abonnementsID;
     
     public Utilisateur() {
 	}
@@ -55,22 +56,23 @@ public class Utilisateur implements Serializable {
         this.mail = utilisateur.mail;
         this.statut = utilisateur.statut;
     }
-
-    public Utilisateur(String nom, String prenom, String mail) {
-        this.nom = nom;
-        this.prenom = prenom;
-        this.mail = mail;
-        this.statut = UTILISATEUR_STATUT_ACTIF;
-    }
-
-	public Utilisateur(String id, String nom, String prenom, String mail, String statut, Set<String> abonementsID) {
-		super();
+    
+	public Utilisateur(String nom, String prenom, String mail, Set<String> abonnementsID) {
+		this.id = UUID.randomUUID().toString();
+		this.nom = nom;
+		this.prenom = prenom;
+		this.mail = mail;
+		this.statut = UTILISATEUR_STATUT_ACTIF;
+		this.abonnementsID = abonnementsID;
+	}
+    
+	public Utilisateur(String id, String nom, String prenom, String mail, String statut, Set<String> abonnementsID) {
 		this.id = id;
 		this.nom = nom;
 		this.prenom = prenom;
 		this.mail = mail;
 		this.statut = statut;
-		this.abonementsID = abonementsID;
+		this.abonnementsID = abonnementsID;
 	}
 
 	public final String getId() {
@@ -113,11 +115,11 @@ public class Utilisateur implements Serializable {
 		this.statut = statut;
 	}
 
-	public final Set<String> getAbonementsID() {
-		return abonementsID;
+	public final Set<String> getabonnementsID() {
+		return abonnementsID;
 	}
 
-	public final void setAbonementsID(Set<String> abonementsID) {
-		this.abonementsID = abonementsID;
+	public final void setabonnementsID(Set<String> abonnementsID) {
+		this.abonnementsID = abonnementsID;
 	}
 }
