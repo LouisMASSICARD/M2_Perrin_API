@@ -13,7 +13,14 @@ import javax.persistence.JoinColumn;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Utilisateur implements Serializable {
 
     private static final long serialVersionUID = 8765432234567L;
@@ -27,8 +34,8 @@ public class Utilisateur implements Serializable {
         • statut => actif || supprime
     */
 
-    public final static String UTILISATEUR_STATUT_ACTIF = "actif";
-    public final static String UTILISATEUR_STATUT_SUPPRIME = "supprime";
+    public final static String UTILISATEUR_STATUT_ACTIF = "ACTIF";
+    public final static String UTILISATEUR_STATUT_SUPPRIME = "SUPPRIME";
 
     @Id
     private String id;
@@ -46,8 +53,6 @@ public class Utilisateur implements Serializable {
     @JsonProperty("abonnements-id")
     private Set<String> abonnementsID;
     
-    public Utilisateur() {
-	}
 
 	public Utilisateur(Utilisateur utilisateur) {
         this.id = utilisateur.id;
@@ -65,61 +70,64 @@ public class Utilisateur implements Serializable {
 		this.statut = UTILISATEUR_STATUT_ACTIF;
 		this.abonnementsID = abonnementsID;
 	}
-    
-	public Utilisateur(String id, String nom, String prenom, String mail, String statut, Set<String> abonnementsID) {
-		this.id = id;
-		this.nom = nom;
-		this.prenom = prenom;
-		this.mail = mail;
-		this.statut = statut;
-		this.abonnementsID = abonnementsID;
-	}
 
-	public final String getId() {
-		return id;
-	}
-
-	public final void setId(String id) {
-		this.id = id;
-	}
-
-	public final String getNom() {
-		return nom;
-	}
-
-	public final void setNom(String nom) {
-		this.nom = nom;
-	}
-
-	public final String getPrenom() {
-		return prenom;
-	}
-
-	public final void setPrenom(String prenom) {
-		this.prenom = prenom;
-	}
-
-	public final String getMail() {
-		return mail;
-	}
-
-	public final void setMail(String mail) {
-		this.mail = mail;
-	}
-
-	public final String getStatut() {
-		return statut;
-	}
-
-	public final void setStatut(String statut) {
-		this.statut = statut;
-	}
-
-	public final Set<String> getabonnementsID() {
-		return abonnementsID;
-	}
-
-	public final void setabonnementsID(Set<String> abonnementsID) {
-		this.abonnementsID = abonnementsID;
-	}
+//	public Utilisateur() {
+//	}
+//    
+//	public Utilisateur(String id, String nom, String prenom, String mail, String statut, Set<String> abonnementsID) {
+//		this.id = id;
+//		this.nom = nom;
+//		this.prenom = prenom;
+//		this.mail = mail;
+//		this.statut = statut;
+//		this.abonnementsID = abonnementsID;
+//	}
+//
+//	public final String getId() {
+//		return id;
+//	}
+//
+//	public final void setId(String id) {
+//		this.id = id;
+//	}
+//
+//	public final String getNom() {
+//		return nom;
+//	}
+//
+//	public final void setNom(String nom) {
+//		this.nom = nom;
+//	}
+//
+//	public final String getPrenom() {
+//		return prenom;
+//	}
+//
+//	public final void setPrenom(String prenom) {
+//		this.prenom = prenom;
+//	}
+//
+//	public final String getMail() {
+//		return mail;
+//	}
+//
+//	public final void setMail(String mail) {
+//		this.mail = mail;
+//	}
+//
+//	public final String getStatut() {
+//		return statut;
+//	}
+//
+//	public final void setStatut(String statut) {
+//		this.statut = statut;
+//	}
+//
+//	public final Set<String> getabonnementsID() {
+//		return abonnementsID;
+//	}
+//
+//	public final void setabonnementsID(Set<String> abonnementsID) {
+//		this.abonnementsID = abonnementsID;
+//	}
 }
