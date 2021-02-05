@@ -88,6 +88,7 @@ public class EpisodeRepresentation {
         LOG.info("[Episodes] POST : " + episode.toString());
         Episode user = new Episode(
                 UUID.randomUUID().toString(),
+                episode.getCours_id(),
     			episode.getConcept(),
     			episode.getHref(),
                 episode.getStatut());
@@ -106,7 +107,7 @@ public class EpisodeRepresentation {
 //            episodeRessource.delete(episode.get());
         	Episode user = episode.get();
         	System.out.println(user);
-        	user.setStatut(EpisodeStatuts.ACTIF.toString());
+        	user.setStatut(EpisodeStatuts.SUPPRIME.toString());
         	System.out.println(user);
             Episode result = episodeRessource.save(user);
             System.out.println(result);

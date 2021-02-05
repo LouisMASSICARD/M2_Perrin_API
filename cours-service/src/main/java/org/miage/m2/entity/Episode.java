@@ -20,6 +20,7 @@ public class Episode implements Serializable {
 	*/
 	@Id
 	private String id;
+	private String cours_id;
 	private String concept;
 	private String href;
 	private String statut;
@@ -41,8 +42,9 @@ public class Episode implements Serializable {
 		this.statut = EpisodeStatuts.ACTIF.toString();
 	}
 
-	public Episode(String id, String concept, String href, String statut) {
+	public Episode(String id, String cours_id, String concept, String href, String statut) {
 		this.id = id;
+		this.cours_id = cours_id;
 		this.concept = concept;
 		this.href = href;
 		this.statut = statut;
@@ -65,7 +67,15 @@ public class Episode implements Serializable {
 	public void setId(String id) {
 		this.id = id;
 	}
+	
+	public String getCours_id() {
+		return cours_id;
+	}
 
+	public void setCours_id(String cours_id) {
+		this.cours_id = cours_id;
+	}
+	
 	public String getConcept() {
 		return this.concept;
 	}

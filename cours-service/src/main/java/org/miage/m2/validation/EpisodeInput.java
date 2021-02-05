@@ -12,6 +12,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class EpisodeInput {
 
+	@NotNull
+	@NotBlank
+	private String cours_id;
     @NotNull
     private String concept;
     @NotNull
@@ -34,6 +37,10 @@ public class EpisodeInput {
             ", href='" + getHref() + "'" +
             ", statut='" + getStatut() + "'" +
             "}";
+    }
+    
+    public String getCours_id() {
+        return this.cours_id;
     }
     
     public String getConcept() {
