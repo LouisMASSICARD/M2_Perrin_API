@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -31,8 +32,10 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import org.miage.m2.entity.Cours;
 import org.miage.m2.validation.CoursInput;
 import org.miage.m2.validation.CoursValidator;
+import org.apache.commons.lang3.EnumUtils;
 import org.miage.m2.boundary.client.EpisodeClient;
 import org.miage.m2.boundary.resource.CoursResource;
+import org.miage.m2.constants.CoursStatuts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -57,14 +60,71 @@ public class CoursRepresentation {
         this.coursRessource = coursResource;
         this.validator = coursValidator;
     }
-
-    // GET all
+    
+    // GET all BY statut
     @GetMapping
-    public ResponseEntity<?> getAllCours() {
+    public ResponseEntity<?> getAllCours(@RequestParam(value = "statut", required = false,  defaultValue = "") String statut) {
+//    public ResponseEntity<?> getAllCoursByStatut(@RequestParam(value = "statut", required = false,  defaultValue = "") String statut) {
         LOG.info("[Cours] GET ALL");
-        Iterable<Cours> all = coursRessource.findAll();
+				
+        Iterable<Cours> all;
+        if (statut.isBlank()) {
+        	all = coursRessource.findAll();
+		} else {
+			if (! EnumUtils.isValidEnum(CoursStatuts.class, statut)) {
+				return ResponseEntity.notFound().build();
+			}
+			LOG.info("[Cours] COURS_STATUT_ACTIF : " + statut);
+			all = coursRessource.findByStatut(statut);
+		}
+//        switch (statut) {
+//		case Cours.COURS_STATUT_ACTIF:
+//			LOG.info("[Cours] COURS_STATUT_ACTIF : " + statut);
+//			all = coursRessource.findByStatut(Cours.COURS_STATUT_ACTIF);
+//			break;
+//			
+//		case Cours.COURS_STATUT_SUPPRIME:
+//			LOG.info("[Cours] COURS_STATUT_SUPPRIME : " + statut);
+//			all = coursRessource.findByStatut(Cours.COURS_STATUT_SUPPRIME);
+//			break;
+//
+//		default:
+//			LOG.info("[Cours] all by default : " + statut);
+//			all = coursRessource.findAll();
+//			break;
+//		}
         return ResponseEntity.ok(coursToResource(all));
     }
+    
+//    // GET all BY acces
+//    @GetMapping
+//    public ResponseEntity<?> getAllCoursByAcces(@RequestParam(value = "acces", required = false,  defaultValue = "") String acces) {
+//        LOG.info("[Cours] GET ALL");
+//        Iterable<Cours> all;
+//        if (acces.isBlank()) {
+//        	all = coursRessource.findAll();
+//		} else {
+//			all = coursRessource.findByAcces(acces);
+//		}
+//        
+////        switch (acces) {
+////		case Cours.COURS_ACCES_GRATUIT:
+////			LOG.info("[Cours] COURS_ACCES_GRATUIT : " + acces);
+////			all = coursRessource.findByAcces(Cours.COURS_ACCES_GRATUIT);
+////			break;
+////			
+////		case Cours.COURS_ACCES_PAYANT:
+////			LOG.info("[Cours] COURS_ACCES_PAYANT : " + acces);
+////			all = coursRessource.findByAcces(Cours.COURS_ACCES_PAYANT);
+////			break;
+////
+////		default:
+////			LOG.info("[Cours] all by default : " + acces);
+////			all = coursRessource.findAll();
+////			break;
+////		}
+//        return ResponseEntity.ok(coursToResource(all));
+//    }
 
     // GET one
     @GetMapping(value="/{coursID}")
@@ -103,7 +163,7 @@ public class CoursRepresentation {
 //            coursRessource.delete(cours.get());
         	Cours user = cours.get();
         	System.out.println(user);
-        	user.setStatut(Cours.COURS_STATUT_SUPPRIME);
+        	user.setStatut(CoursStatuts.SUPPRIME.toString());
         	System.out.println(user);
             Cours result = coursRessource.save(user);
             System.out.println(result);
@@ -177,7 +237,7 @@ public class CoursRepresentation {
     // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
     private CollectionModel<EntityModel<Cours>> coursToResource(Iterable<Cours> cours) {
-        Link selfLink = linkTo(methodOn(CoursRepresentation.class).getAllCours()).withSelfRel();
+        Link selfLink = linkTo(methodOn(CoursRepresentation.class).getAllCours(null)).withSelfRel();
         List<EntityModel<Cours>> coursResources = new ArrayList<EntityModel<Cours>>();
         cours.forEach(cour -> coursResources.add(coursToResource(cour, false)));
         return  CollectionModel.of(coursResources, selfLink);
@@ -186,7 +246,7 @@ public class CoursRepresentation {
     private EntityModel<Cours> coursToResource(Cours cours, Boolean collection) {
         var selfLink = linkTo(CoursRepresentation.class).slash(cours.getId()).withSelfRel();
         if (Boolean.TRUE.equals(collection)) {
-            Link collectionLink = linkTo(methodOn(CoursRepresentation.class).getAllCours()).withRel("collection");
+            Link collectionLink = linkTo(methodOn(CoursRepresentation.class).getAllCours(null)).withRel("collection");
             return EntityModel.of(cours, selfLink, collectionLink);
         } else {
             return EntityModel.of(cours, selfLink);

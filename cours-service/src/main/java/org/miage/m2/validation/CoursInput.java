@@ -5,6 +5,9 @@ import java.util.Set;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.miage.m2.constants.CoursAcces;
+import org.miage.m2.constants.CoursStatuts;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,8 +23,10 @@ public class CoursInput {
     @NotNull
     private String description;
     @NotNull
+    @ValidateEnumString(enumClass=CoursStatuts.class, message = "Ce statut n'existe pas.") 
     private String statut;
     @NotNull
+//    @ValidateEnumString(enumClass=CoursAcces.class) 
     private String acces;
     @NotNull
     private Long prix;

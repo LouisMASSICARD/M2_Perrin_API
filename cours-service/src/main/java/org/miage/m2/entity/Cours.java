@@ -8,6 +8,10 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.JoinColumn;
+
+import org.miage.m2.constants.CoursAcces;
+import org.miage.m2.constants.CoursStatuts;
+
 // import javax.persistence.OneToMany;
 // import javax.persistence.ManyToOne;
 import javax.persistence.Entity;
@@ -17,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
-@JsonIgnoreProperties({ "episodes" })
+//@JsonIgnoreProperties({ "episodes" })
 public class Cours implements Serializable {
 
     private static final long serialVersionUID = 1234567891234L;
@@ -31,12 +35,6 @@ public class Cours implements Serializable {
         • prix
         • []id_episode => ensemble/liste d’épisodes vidéo
     */
-
-    public final static String COURS_STATUT_ACTIF = "actif";
-    public final static String COURS_STATUT_SUPPRIME = "supprime";
-
-    public final static String COURS_ACCES_PAYANT = "payant";
-    public final static String COURS_ACCES_GRATUIT = "gratuit";
 
     @Id
     private String id;
@@ -70,8 +68,8 @@ public class Cours implements Serializable {
     public Cours(String nom, String description) {
         this.nom = nom;
         this.description = description;
-        this.statut = COURS_STATUT_ACTIF;
-        this.acces = COURS_ACCES_GRATUIT;
+        this.statut = CoursStatuts.ACTIF.toString();
+        this.acces = CoursAcces.GARTUIT.toString();
         this.prix = 0L;
     }
 

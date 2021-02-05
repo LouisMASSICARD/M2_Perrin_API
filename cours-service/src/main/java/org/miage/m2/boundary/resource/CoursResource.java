@@ -8,4 +8,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 // @RepositoryRestResource(collectionResourceRel="cours", path="cours")
 // public interface CoursResource extends CrudRepository<Cours, String> {
 public interface CoursResource extends JpaRepository<Cours, String> {
+
+	// Recherche des cours par statut : actif, supprime, ...
+	Iterable<Cours> findByStatut(String statut);
+
+	// Recherche des cours par access : gratuit, payant, ...
+	Iterable<Cours> findByAcces(String acces);
 }
